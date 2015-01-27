@@ -1,0 +1,14 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', src='/bower/bootstrap/dist/css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    script(src='/bower/bluebird/js/browser/bluebird.js')
+    script(src='/bower/angular/angular.js')
+    script(src='/bower/angular-bluebird-promises/dist/angular-bluebird-promises.min.js')
+    script(src='/js/lib/angular-animate.js')
+    script(src='/js/lib/bootstrap/ui-bootstrap-tpls-0.11.2.js')
+    script(src='/js/app.js')
+  body(ng-app='komon')
+    block content
