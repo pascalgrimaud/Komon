@@ -19,6 +19,8 @@ mongoose.connect('mongodb://localhost:27017/komon', function(err) {
 
 var routes = require('./routes/index');
 var komoners = require('./routes/komoners');
+var expenses = require('./routes/expenses');
+var tags = require('./routes/tags');
 
 var app = express();
 
@@ -38,6 +40,8 @@ app.use('/bower',  express.static(__dirname + '/bower_components'));
 
 app.use('/', routes);
 app.use('/komoners', komoners);
+app.use('/expenses', expenses);
+app.use('/tags', tags);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -1,52 +1,61 @@
 var express = require('express');
 var router = express.Router();
 
-var Komoner = require('../models/expense.js');
+var Expense = require('../models/expense.js');
 
-/* GET komoners */
+/* GET expenses */
 router.get('/', function(req, res, next) {
-    Komoner.find(function (err, komoners) {
+    Expense.find(function (err, expenses) {
         if (err) return next(err);
-        res.json(komoners);
+        res.json(expenses);
     });
 });
 
-/* POST komoners */
+/* GET expenses by user*/
+router.get('/user/:id', function(req, res, next) {
+    userId = req.params.id;
+    Expense.find({ "komoner": userId }, function (err, expense) {
+        if (err) return next(err);
+        res.json(expense);
+    });
+});
+
+/* POST expenses */
 router.post('/', function(req, res, next) {
-    var komoner = new Komoner(req.body);
-    komoner.save(function (err, post) {
+    var expense = new Expense(req.body);
+    expense.save(function (err, post) {
         if (err) return next(err);
         res.json(post);
     });
 });
 
-/* GET /komoners/id */
+/* GET /expenses/id */
 router.get('/:id', function(req, res, next) {
-    Komoner.findById(req.params.id, function (err, post) {
+    Expense.findById(req.params.id, function (err, post) {
         if (err) return next(err);
         res.json(post);
     });
 });
 
-/* PUT /komoners/:id */
+/* PUT /expenses/:id */
 router.put('/:id', function(req, res, next) {
-    Komoner.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
+    Expense.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
         if (err) return next(err);
         res.json(post);
     });
 });
 
-/* DELETE /komoners/:id */
+/* DELETE /expenses/:id */
 router.delete('/:id', function(req, res, next) {
-    Komoner.findByIdAndRemove(req.params.id, req.body, function (err, post) {
+    Expense.findByIdAndRemove(req.params.id, req.body, function (err, post) {
         if (err) return next(err);
         res.json(post);
     });
 });
 
-/* DELETE /komoners/ */
+/* DELETE /expenses/ */
 router.delete('/', function(req, res, next) {
-    Komoner.remove(function (err, post) {
+    Expense.remove(function (err, post) {
         if (err) return next(err);
         res.json(post);
     });
