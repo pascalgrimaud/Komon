@@ -2,4 +2,7 @@ extends layout
 
 block content
     h3 hello
-    div.page(ng-view, class='{{pageClass}}') Hello
+    div.page(ng-controller='expenseController',ng-view, class='{{pageClass}}') Hello
+        div(ng-click='displayKomoner()') testo {{komoner}}
+
+
