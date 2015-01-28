@@ -11,5 +11,15 @@ angular.module('komon.services').factory('expenseService', ['$http', 'Restangula
         return Restangular.one('komoners', id).get();
     };
 
+    expenseService.getExpensesOfKomoner = function(komonerId)
+    {
+        return Restangular.all('expenses').one('user', komonerId).get();
+    };
+
+    expenseService.addExpense = function(expense)
+    {
+        return Restangular.all('expenses').post(expense);
+    };
+
     return expenseService;
 }]);

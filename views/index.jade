@@ -1,8 +1,29 @@
 extends layout
 
 block content
-    h3 hello
-    div.page(ng-controller='expenseController',ng-view, class='{{pageClass}}') Hello
-        div(ng-click='displayKomoner()') testo {{komoner}}
+    h3 Expenses
+    div.page(ng-controller='expenseController',ng-view, class='{{pageClass}}')
+        ng-form(name="addExpense")
+            label(class="control-label", for="name") Name
+            input(type="text", name="name", ng-model="name")
+
+            label(class="control-label", for="name") Tags
+            input(type="text", name="tags", ng-model="tags")
+
+            label(class="control-label", for="name") Comment
+            input(type="text", name="comment", ng-model="comment")
+
+            label(class="control-label", for="name") Price
+            input(type="text", name="price", ng-model="price")
+
+            label(class="control-label", for="name") Amount
+            input(type="text", name="amount", ng-model="amount")
+
+            input(type="button", ng-click="addKomonerExpense()", value="Add")
+            div(class="grid" ui-grid="gridOptions")
+
+
+
+
 
 
