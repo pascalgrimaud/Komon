@@ -101,6 +101,8 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
             minMode: "month"
         };
 
+       $scope.dateSwitch = $filter('date')(new Date(), 'MMMM yyyy');
+
         $scope.switchMonth = function() {
 
             var newYear = $filter('date')($scope.dateSwitch, 'yyyy');

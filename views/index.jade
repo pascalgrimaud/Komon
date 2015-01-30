@@ -52,7 +52,7 @@ block content
                 div(class="col-md-2")
                     label(class="control-label", for="dateSwitch") Month
                     div(class="input-group")
-                        input(type="text", class="form-control", ng-change="switchMonth()", datepicker-mode="'month'", datepicker-popup="MMMM", ng-model="dateSwitch", is-open="switchOpened", min-date="minDate", datepicker-options="dateSwitchOptions", date-disabled="disabled(date, mode)", ng-required="true", close-text="Close")
+                        input(type="text", class="form-control", ng-change="switchMonth()", datepicker-mode="'month'", datepicker-popup="MMMM yyyy", ng-model="dateSwitch", is-open="switchOpened", min-date="minDate", datepicker-options="dateSwitchOptions", date-disabled="disabled(date, mode)", ng-required="true", close-text="Close")
                         span(class="input-group-btn")
                             button(type="button", class="btn btn-default", ng-click="openSwitch($event)")
                                 i(class="glyphicon glyphicon-calendar")
