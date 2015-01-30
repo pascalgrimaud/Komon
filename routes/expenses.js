@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var moment = require('moment');
 
 var Expense = require('../models/expense.js');
 
@@ -14,9 +15,22 @@ router.get('/', function(req, res, next) {
 /* GET expenses by user*/
 router.get('/user/:id', function(req, res, next) {
     userId = req.params.id;
-    Expense.find({ "komoner": userId }, function (err, expense) {
+    Expense.find({ "komoner": userId }, function (err, expenses) {
         if (err) return next(err);
-        res.json(expense);
+        res.json(expenses);
+    });
+});
+
+/* GET expenses by user and by month*/
+router.get('/user/:id/year/:year/month/:month', function(req, res, next) {
+    userId = req.params.id;
+    month = req.params.month;
+    year = req.params.year;
+    var dateMin = new Date(year, month - 1, 1);
+    var dateMax = new Date(year, month, 1);
+    Expense.find({ "komoner": userId, "date": {$gte: dateMin, $lt: dateMax} }, function (err, expenses) {
+        if (err) return next(err);
+        res.json(expenses);
     });
 });
 

@@ -8,7 +8,7 @@ var Schema = mongoose.Schema;
 var KomonerSchema = new Schema({
     komoner: Schema.Types.ObjectId,
     name: String,
-    time: Date,
+    date: Date,
     comment: String,
     tags: [Schema.Types.ObjectId],
     amount: String,

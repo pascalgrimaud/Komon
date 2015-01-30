@@ -9,7 +9,6 @@
 angular.module('komon.services').factory('alertService', [function () {
 
     var alertService = {};
-    var alert;
 
     alertService.error = function (message) {
         return { type: 'success', msg: message};
