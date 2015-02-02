@@ -11,7 +11,6 @@ angular.module('komon.services').factory('expenseService', ['$http', 'Restangula
         return Restangular.one('komoners', id).get();
     };
 
-
     expenseService.getExpensesOfKomoner = function(komonerId)
     {
         return Restangular.all('expenses').one('user', komonerId).get();
@@ -37,7 +36,7 @@ angular.module('komon.services').factory('expenseService', ['$http', 'Restangula
        return Restangular.one('expenses', expense._id).get().then(function(object) {
             object.date = expense.date;
             object.name = expense.name;
-            object.tags = expense.tags;
+            object.tags = expense.date;
             object.comment = expense.comment;
             object.price = expense.price;
             object.amount = expense.amount;

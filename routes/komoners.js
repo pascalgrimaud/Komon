@@ -29,8 +29,8 @@ router.get('/:id', function(req, res, next) {
 });
 
 /* PUT /komoners/:id */
-router.put('/:id', function(req, res, next) {
-    Komoner.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
+router.put('/', function(req, res, next) {
+    Komoner.update({"_id": req.body._id}, req.body, function (err, post) {
         if (err) return next(err);
         res.json(post);
     });

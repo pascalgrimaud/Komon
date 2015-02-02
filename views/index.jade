@@ -43,20 +43,23 @@ block content
                     select(ng-options="amount as amount.value for amount in amounts", ng-model="amount", class="form-control")
 
             div(class="row")
-                    button(type="button", class="btn btn-success", ng-click="addKomonerExpense()") Add
+                    button(type="button", class="btn btn-primary", ng-click="addKomonerExpense()") Add
 
             div(class="row")
-                button(type="button", class="btn btn-danger", ng-click="deleteKomonerExpenses()") Remove
+                button(type="button", class="btn btn-info", ng-click="deleteKomonerExpenses()") Remove
 
             div(class="row")
                 div(class="col-md-2")
+                    button(type="button" class="btn btn-default", aria-label="Previous", ng-click="prevMonth()")
+                        span(class="glyphicon glyphicon-menu-left", aria-hidden="true")
                     label(class="control-label", for="dateSwitch") Month
                     div(class="input-group")
                         input(type="text", class="form-control", ng-change="switchMonth(dateSwitch)", datepicker-mode="'month'", datepicker-popup="MMMM yyyy", ng-model="dateSwitch", is-open="switchOpened", min-date="minDate", datepicker-options="dateSwitchOptions", date-disabled="disabled(date, mode)", ng-required="true", close-text="Close")
                         span(class="input-group-btn")
                             button(type="button", class="btn btn-default", ng-click="openSwitch($event)")
                                 i(class="glyphicon glyphicon-calendar")
-
+                    button(type="button" class="btn btn-default", aria-label="Next", ng-click="nextMonth()")
+                        span(class="glyphicon glyphicon-menu-right", aria-hidden="true")
             div(class="grid", ui-grid="gridOptions", ui-grid-selection, ng-animate=" 'animate' ",ui-grid-edit, ui-grid-row-edit, ui-grid-cellNav)
 
 

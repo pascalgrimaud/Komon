@@ -85,12 +85,13 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
 
         $scope.komonerId = "54c7a0c902dbfa0c1f0afe5a";
 
-        $scope.displayKomoner = function () {
+      /*  $scope.displayKomoner = function () {
             expenseService.getKomoner($scope.komonerId).then(function (result) {
+                console.log(result);
                 $scope.komoner = result;
             });
 
-        };
+        };*/
 
         $scope.getKomonerExpenses = function() {
             expenseService.getExpensesOfKomoner($scope.komonerId).then(function (result) {
@@ -115,18 +116,33 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
         };
 
         //Default displayed value
-        $scope.dateSwitch = $filter('date')(new Date(), 'MMMM yyyy');
+        $scope.dateSwitch = moment().format('MMMM YYYY');
 
         $scope.switchMonth = function(date) {
 
-            var newYear = $filter('date')(date, 'yyyy');
-            var newMonth = $filter('date')(date, 'M');
+            var newYear = moment(date).format('YYYY');
+            var newMonth = moment(date).format('M');
 
             expenseService.getExpenseByMonth($scope.komonerId, newYear, newMonth).then(function (result) {
                 $scope.expenses = result;
                 $scope.gridOptions.data = $scope.expenses;
             });
         };
+
+        $scope.prevMonth = function()
+        {
+            $scope.dateSwitch = moment($scope.dateSwitch).subtract(1, 'month');
+            $scope.switchMonth($scope.dateSwitch);
+            $scope.dateSwitch = moment($scope.dateSwitch).format('MMMM YYYY');
+        };
+
+        $scope.nextMonth = function()
+        {
+            $scope.dateSwitch = moment($scope.dateSwitch).add(1, 'month');
+            $scope.switchMonth($scope.dateSwitch);
+            $scope.dateSwitch = moment($scope.dateSwitch).format('MMMM YYYY');
+        };
+
 
 
         $scope.addKomonerExpense = function() {
