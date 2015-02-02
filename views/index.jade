@@ -40,7 +40,7 @@ block content
 
                 div(class="col-md-2")
                     label(class="control-label", for="amount") Amount
-                    select(ng-options="n for n in [] | range:1:100", ng-model="amount", class="form-control")
+                    select(ng-options="n for n in [] | range:100", ng-model="amount", class="form-control")
 
             div(class="row")
                     button(type="button", class="btn btn-success", ng-click="addKomonerExpense()") Add
@@ -52,7 +52,7 @@ block content
                 div(class="col-md-2")
                     label(class="control-label", for="dateSwitch") Month
                     div(class="input-group")
-                        input(type="text", class="form-control", ng-change="switchMonth()", datepicker-mode="'month'", datepicker-popup="MMMM yyyy", ng-model="dateSwitch", is-open="switchOpened", min-date="minDate", datepicker-options="dateSwitchOptions", date-disabled="disabled(date, mode)", ng-required="true", close-text="Close")
+                        input(type="text", class="form-control", ng-change="switchMonth(dateSwitch)", datepicker-mode="'month'", datepicker-popup="MMMM yyyy", ng-model="dateSwitch", is-open="switchOpened", min-date="minDate", datepicker-options="dateSwitchOptions", date-disabled="disabled(date, mode)", ng-required="true", close-text="Close")
                         span(class="input-group-btn")
                             button(type="button", class="btn btn-default", ng-click="openSwitch($event)")
                                 i(class="glyphicon glyphicon-calendar")

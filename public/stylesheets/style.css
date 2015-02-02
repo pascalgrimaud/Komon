@@ -12,6 +12,19 @@ a {
     height: 400px;
 }
 
+.alert {
+    position: fixed;
+    top: 30px;
+    left: 20px;
+    right: 20px;
+    z-index: 999;
+}
+
+.ui-grid-row-header-cell
+{
+    height: 35px;
+}
+
 .animate-enter,
 .animate-leave
 {

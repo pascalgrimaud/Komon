@@ -1,13 +1,16 @@
 /**
  * Created by Komo on 27/01/2015.
  */
-angular.module('komon.controllers').controller('expenseController', ['$scope', '$http', '$filter', '$interval', '$q', 'expenseService', 'uiGridConstants', 'alertService',
-    function ($scope, $http, $filter, $interval, $q, expenseService, uiGridConstants, alertService) {
+angular.module('komon.controllers').controller('expenseController', ['$scope', '$http', '$filter', '$interval', '$timeout', 'expenseService', 'uiGridConstants', 'alertService',
+    function ($scope, $http, $filter, $interval, $timeout, expenseService, uiGridConstants, alertService) {
 
         $scope.gridOptions = {
             enableRowSelection: true,
-            enableRowHeaderSelection: false,
+            enableRowHeaderSelection: true,
             modifierKeysToMultiSelect: true,
+          //  enableCellEditOnFocus: true,
+            selectionRowHeaderWidth: 35,
+            rowHeight: 35,
             noUnselect : false,
             enableSelectAll: true,
             enableFiltering: true,
@@ -101,12 +104,13 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
             minMode: "month"
         };
 
-       $scope.dateSwitch = $filter('date')(new Date(), 'MMMM yyyy');
+        //Default displayed value
+        $scope.dateSwitch = $filter('date')(new Date(), 'MMMM yyyy');
 
-        $scope.switchMonth = function() {
+        $scope.switchMonth = function(date) {
 
-            var newYear = $filter('date')($scope.dateSwitch, 'yyyy');
-            var newMonth = $filter('date')($scope.dateSwitch, 'M');
+            var newYear = $filter('date')(date, 'yyyy');
+            var newMonth = $filter('date')(date, 'M');
 
             expenseService.getExpenseByMonth($scope.komonerId, newYear, newMonth).then(function (result) {
                 $scope.expenses = result;
@@ -128,7 +132,7 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
 
             expenseService.addExpense(expense).then(function (result) {
                 //Refresh expenses
-                $scope.getKomonerExpenses();
+                $scope.switchMonth();
                 $scope.alert = alertService.success("Added the expense : " + $scope.name + " !");
                 emptyForm();
             });
@@ -139,13 +143,13 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
             gridApi.rowEdit.on.saveRow($scope, $scope.saveExpense);
         };
 
-        $scope.getKomonerExpenses();
+        $scope.switchMonth(new Date());
 
         $scope.deleteKomonerExpenses = function() {
             angular.forEach($scope.gridApi.selection.getSelectedRows(), function(expense, index){
                 expenseService.deleteExpense(expense).then(function (result) {
                     //Refresh expenses
-                    $scope.getKomonerExpenses();
+                    $scope.switchMonth();
                     $scope.alert = alertService.success("Removed the expense : " + expense.name + " !");
                 });
 
@@ -154,17 +158,18 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
         };
 
         $scope.saveExpense = function(expense) {
-        /*    var promise = expenseService.saveExpense(expense);
-            $scope.gridApi.rowEdit.setSavePromise(expense, promise.promise);
-            console.log(promise);*/
 
             var promise = expenseService.saveExpense(expense);
             $scope.gridApi.rowEdit.setSavePromise(expense, promise);
 
-            // fake a delay of 3 seconds whilst the save occurs, return error if gender is "male"
-            $interval( function() {
-                promise.resolve();
+            promise.then(function()
+            {
+                    console.log("ok");
+                    $scope.alert = alertService.success("Changes saved.");
+                    $timeout(function() {
+                    $scope.alert = null;
+                }, 5000);
+            });
 
-            }, 3000, 1);
         };
     }]);
