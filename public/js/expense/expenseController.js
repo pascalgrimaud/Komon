@@ -4,6 +4,14 @@
 angular.module('komon.controllers').controller('expenseController', ['$scope', '$http', '$filter', '$interval', '$timeout', 'expenseService', 'uiGridConstants', 'alertService',
     function ($scope, $http, $filter, $interval, $timeout, expenseService, uiGridConstants, alertService) {
 
+        var lowEnd = 1;
+        var highEnd = 99;
+        $scope.amounts = [];
+        while(lowEnd <= highEnd){
+            $scope.amounts.push({id: lowEnd, value: lowEnd});
+            lowEnd++;
+        }
+
         $scope.gridOptions = {
             enableRowSelection: true,
             enableRowHeaderSelection: true,
@@ -24,7 +32,8 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
                         return cellValue.match(/a/);
                     }},
                     cellFilter: 'date:\'dd/MM/yyyy\'',
-                    width: '100'
+                    width: '100',
+                    editableCellTemplate: '<input type="text" datepicker-popup="dd/MM/yyyy" datepicker-append-to-body=true ng-model="date" />'
                 },
                 // no filter input
                 { field: 'comment', enableFiltering: false, filter: {
@@ -52,7 +61,8 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
                 },
                 // custom condition function
                 {
-                    field: 'amount', width: '100',  enableFiltering: false
+                    field: 'amount', width: '100',  enableFiltering: false, editableCellTemplate: 'ui-grid/dropdownEditor',
+                    editDropdownOptionsArray: $scope.amounts
                 }
             ]
         };
@@ -164,7 +174,6 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
 
             promise.then(function()
             {
-                    console.log("ok");
                     $scope.alert = alertService.success("Changes saved.");
                     $timeout(function() {
                     $scope.alert = null;

@@ -1,8 +1,8 @@
 extends layout
-
 block content
-    h3 Expenses
+    include ./navbar.jade
     div.page(ng-controller='expenseController', ng-view, class='{{pageClass}}')
+        h3 Expenses
         alert-notification
         ng-form(name="addExpense")
             div(class="row")
@@ -40,7 +40,7 @@ block content
 
                 div(class="col-md-2")
                     label(class="control-label", for="amount") Amount
-                    select(ng-options="n for n in [] | range:100", ng-model="amount", class="form-control")
+                    select(ng-options="amount as amount.value for amount in amounts", ng-model="amount", class="form-control")
 
             div(class="row")
                     button(type="button", class="btn btn-success", ng-click="addKomonerExpense()") Add
