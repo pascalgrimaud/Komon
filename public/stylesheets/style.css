@@ -39,6 +39,16 @@ a {
     height: 35px;
 }
 
+.watermark {
+    position: absolute;
+    top : 100px;
+    opacity: 0.25;
+    font-size: 3em;
+    width: 100%;
+    text-align: center;
+    z-index: 1000;
+}
+
 .animate-enter,
 .animate-leave
 {
