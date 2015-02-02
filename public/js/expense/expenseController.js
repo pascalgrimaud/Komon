@@ -1,8 +1,8 @@
 /**
  * Created by Komo on 27/01/2015.
  */
-angular.module('komon.controllers').controller('expenseController', ['$scope', '$http', '$filter', 'expenseService', 'uiGridConstants', 'alertService',
-    function ($scope, $http, $filter, expenseService, uiGridConstants, alertService) {
+angular.module('komon.controllers').controller('expenseController', ['$scope', '$http', '$filter', '$interval', '$q', 'expenseService', 'uiGridConstants', 'alertService',
+    function ($scope, $http, $filter, $interval, $q, expenseService, uiGridConstants, alertService) {
 
         $scope.gridOptions = {
             enableRowSelection: true,
@@ -136,17 +136,35 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
 
         $scope.gridOptions.onRegisterApi = function( gridApi ) {
             $scope.gridApi = gridApi;
+            gridApi.rowEdit.on.saveRow($scope, $scope.saveExpense);
         };
 
         $scope.getKomonerExpenses();
 
         $scope.deleteKomonerExpenses = function() {
             angular.forEach($scope.gridApi.selection.getSelectedRows(), function(expense, index){
-                expenseService.deleteExpense(expense);
-                //Refresh expenses
-                $scope.getKomonerExpenses();
-                $scope.alert = alertService.success("Removed the expense : " + expense.name + " !");
+                expenseService.deleteExpense(expense).then(function (result) {
+                    //Refresh expenses
+                    $scope.getKomonerExpenses();
+                    $scope.alert = alertService.success("Removed the expense : " + expense.name + " !");
+                });
+
             });
 
-        }
+        };
+
+        $scope.saveExpense = function(expense) {
+        /*    var promise = expenseService.saveExpense(expense);
+            $scope.gridApi.rowEdit.setSavePromise(expense, promise.promise);
+            console.log(promise);*/
+
+            var promise = expenseService.saveExpense(expense);
+            $scope.gridApi.rowEdit.setSavePromise(expense, promise);
+
+            // fake a delay of 3 seconds whilst the save occurs, return error if gender is "male"
+            $interval( function() {
+                promise.resolve();
+
+            }, 3000, 1);
+        };
     }]);

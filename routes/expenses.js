@@ -51,9 +51,9 @@ router.get('/:id', function(req, res, next) {
     });
 });
 
-/* PUT /expenses/:id */
-router.put('/:id', function(req, res, next) {
-    Expense.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
+/* PUT /expenses */
+router.put('/', function(req, res, next) {
+    Expense.update({"_id": req.body._id}, req.body, function (err, post) {
         if (err) return next(err);
         res.json(post);
     });

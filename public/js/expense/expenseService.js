@@ -32,9 +32,18 @@ angular.module('komon.services').factory('expenseService', ['$http', 'Restangula
         return Restangular.one('expenses', expense._id).remove();
     };
 
-    expenseService.modifyExpense = function(expense)
+    expenseService.saveExpense = function(expense)
     {
-        return expense.put();
+       return Restangular.one('expenses', expense._id).get().then(function(object) {
+            object.date = expense.date;
+            object.name = expense.name;
+            object.tags = expense.tags;
+            object.comment = expense.comment;
+            object.price = expense.price;
+            object.amount = expense.amount;
+            object.put();
+        });
+
     };
 
     return expenseService;
