@@ -24,7 +24,7 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
             enableFiltering: true,
             columnDefs: [
                 // default
-                { field: 'name' },
+                { field: 'name', filter: {placeholder: 'Filter by name'} },
                 { field: 'tags'},
                 { field: 'date', filter: {
                     noTerm: true,
