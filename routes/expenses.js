@@ -13,22 +13,22 @@ router.get('/', function(req, res, next) {
 });
 
 /* GET expenses by user*/
-router.get('/user/:id', function(req, res, next) {
-    userId = req.params.id;
-    Expense.find({ "komoner": userId }, function (err, expenses) {
+router.get('/komoner/:id', function(req, res, next) {
+    komonerId = req.params.id;
+    Expense.find({ "komoner": komonerId }, function (err, expenses) {
         if (err) return next(err);
         res.json(expenses);
     });
 });
 
 /* GET expenses by user and by month*/
-router.get('/user/:id/year/:year/month/:month', function(req, res, next) {
-    userId = req.params.id;
+router.get('/komoner/:id/year/:year/month/:month', function(req, res, next) {
+    komonerId = req.params.id;
     month = req.params.month;
     year = req.params.year;
     var dateMin = new Date(year, month - 1, 1);
     var dateMax = new Date(year, month, 1);
-    Expense.find({ "komoner": userId, "date": {$gte: dateMin, $lt: dateMax} }, function (err, expenses) {
+    Expense.find({ "komoner": komonerId, "date": {$gte: dateMin, $lt: dateMax} }, function (err, expenses) {
         if (err) return next(err);
         res.json(expenses);
     });

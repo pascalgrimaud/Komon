@@ -8,7 +8,8 @@ var Schema = mongoose.Schema;
 var KomonerSchema = new Schema({
     komoner: Schema.Types.ObjectId,
     name: String,
-    color: String
+    color: String,
+    image: String
 });
 
 module.exports = mongoose.model('Tag', KomonerSchema);

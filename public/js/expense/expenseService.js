@@ -13,12 +13,12 @@ angular.module('komon.services').factory('expenseService', ['$http', 'Restangula
 
     expenseService.getExpensesOfKomoner = function(komonerId)
     {
-        return Restangular.all('expenses').one('user', komonerId).get();
+        return Restangular.all('expenses').one('komoner', komonerId).get();
     };
 
     expenseService.getExpenseByMonth = function(komonerId, year, month)
     {
-        return Restangular.all('expenses').one('user', komonerId).one('year', year).one('month', month).get();
+        return Restangular.all('expenses').one('komoner', komonerId).one('year', year).one('month', month).get();
     };
 
     expenseService.addExpense = function(expense)
