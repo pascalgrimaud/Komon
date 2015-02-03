@@ -73,15 +73,15 @@ router.put('/', function(req, res, next) {
     });
 });
 
-*//* DELETE /expenses/:id *//*
+/*DELETE /tags/:id */
 router.delete('/:id', function(req, res, next) {
-    Expense.findByIdAndRemove(req.params.id, req.body, function (err, post) {
+    Tag.findByIdAndRemove(req.params.id, req.body, function (err, post) {
         if (err) return next(err);
         res.json(post);
     });
 });
 
-*//* DELETE /expenses/ *//*
+/*//* DELETE /expenses/ *//*
 router.delete('/', function(req, res, next) {
     Expense.remove(function (err, post) {
         if (err) return next(err);

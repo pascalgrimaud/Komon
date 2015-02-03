@@ -1,3 +1,10 @@
-<tags-input ng-model="tags">
-    <auto-complete source="loadItems($query)"></auto-complete>
-</tags-input>
+<!--tags-input ng-model="komonerTags" displayProperty="name">
+    <auto-complete source="loadKomonerTags($query)" min-length="0" load-on-focus="true"></auto-complete>
+</tags-input-->
+<div>
+    <ul>
+        <li ng-repeat="tag in komonerTags">
+         {{tag}}
+        </li>
+    </ul>
+</div>
