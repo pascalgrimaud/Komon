@@ -2,6 +2,7 @@ extends layout
 block content
     include ./navbar.jade
     div.page(ng-controller='expenseController', ng-view, class='{{pageClass}}')
+        komon-tags(ng-repeat="komonerTag in komonerTags")
         h3 Expenses
         alert-notification
         ng-form(name="addExpense")
@@ -63,7 +64,6 @@ block content
                     button(type="button" class="btn btn-default", aria-label="Next", ng-click="nextMonth()")
                         span(class="glyphicon glyphicon-menu-right", aria-hidden="true")
                 div(class="col-md-2")
-                     komon-tags
             div(class="grid", ui-grid="gridOptions", ui-grid-selection, ng-animate=" 'animate' ",ui-grid-edit, ui-grid-row-edit, ui-grid-cellNav)
                 div(class="watermark" ng-show="!gridOptions.data.length") No expense for this month.
 

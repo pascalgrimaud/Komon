@@ -15,7 +15,7 @@ router.get('/', function(req, res, next) {
 /* GET expenses by user*/
 router.get('/komoner/:id', function(req, res, next) {
     komonerId = req.params.id;
-    Expense.find({ "komoner": komonerId }, function (err, expenses) {
+    Expense.find({ "_komoner": komonerId }, function (err, expenses) {
         if (err) return next(err);
         res.json(expenses);
     });
@@ -28,7 +28,7 @@ router.get('/komoner/:id/year/:year/month/:month', function(req, res, next) {
     year = req.params.year;
     var dateMin = new Date(year, month - 1, 1);
     var dateMax = new Date(year, month, 1);
-    Expense.find({ "komoner": komonerId, "date": {$gte: dateMin, $lt: dateMax} }, function (err, expenses) {
+    Expense.find({ "_komoner": komonerId, "date": {$gte: dateMin, $lt: dateMax} }).populate('_tags').exec(function (err, expenses) {
         if (err) return next(err);
         res.json(expenses);
     });

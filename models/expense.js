@@ -6,11 +6,11 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var KomonerSchema = new Schema({
-    komoner: Schema.Types.ObjectId,
+    _komoner: {type: Schema.Types.ObjectId, ref: 'Komoner'},
     name: String,
     date: Date,
     comment: String,
-    tags: [Schema.Types.ObjectId],
+    _tags: [{ type: Schema.Types.ObjectId, ref: 'Tag' }],
     amount: String,
     price: Number
 });

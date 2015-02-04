@@ -20,11 +20,11 @@ router.get('/komoner/:id/:query?', function(req, res, next) {
     if(query)
     {
         //i = case insensitive
-        condition = { "komoner": komonerId, "name":  new RegExp(query, "i")};
+        condition = { "_komoner": komonerId, "name":  new RegExp(query, "i")};
     }
     else
     {
-        condition = { "komoner": komonerId};
+        condition = { "_komoner": komonerId};
     }
 
     Tag.find(condition, function (err, tags) {

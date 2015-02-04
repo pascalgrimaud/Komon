@@ -6,7 +6,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var KomonerSchema = new Schema({
-    komoner: Schema.Types.ObjectId,
+    _komoner: {type: Schema.Types.ObjectId, ref: 'Komoner'},
     name: String,
     color: String,
     image: String
