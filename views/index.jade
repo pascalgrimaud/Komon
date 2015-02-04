@@ -2,10 +2,13 @@ extends layout
 block content
     include ./navbar.jade
     div.page(ng-controller='expenseController', ng-view, class='{{pageClass}}')
-        komon-tags(ng-repeat="komonerTag in komonerTags")
         h3 Expenses
         alert-notification
         ng-form(name="addExpense")
+            div(class="row")
+                label(class="control-label") Your tags
+                div() Click to tag your expense
+                komon-tags(ng-repeat="komonerTag in komonerTags")
             div(class="row")
                 div(class="col-md-2")
                     label(class="control-label", for="name") Name
@@ -13,7 +16,8 @@ block content
 
                 div(class="col-md-2")
                     label(class="control-label", for="tags") Tags
-                    input(type="text", name="tags", ng-model="tags", class="form-control")
+                    div() Click to unselect
+                    selected-tags(ng-repeat="komonerTag in selectedTags")
 
                 div(class="col-md-2")
                     label(class="control-label", for="date") Date

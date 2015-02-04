@@ -15,7 +15,7 @@ router.get('/', function(req, res, next) {
 /* GET expenses by user*/
 router.get('/komoner/:id', function(req, res, next) {
     komonerId = req.params.id;
-    Expense.find({ "_komoner": komonerId }, function (err, expenses) {
+    Expense.find({ "_komoner": komonerId }).populate('_tags').exec(function (err, expenses) {
         if (err) return next(err);
         res.json(expenses);
     });

@@ -1,8 +1,8 @@
 /**
  * Created by Komo on 27/01/2015.
  */
-angular.module('komon.controllers').controller('expenseController', ['$scope', '$http', '$filter', '$interval', '$timeout', 'expenseService', 'uiGridConstants', 'alertService',
-    function ($scope, $http, $filter, $interval, $timeout, expenseService, uiGridConstants, alertService) {
+angular.module('komon.controllers').controller('expenseController', ['$scope', '$http', '$filter', '$interval', '$timeout', 'expenseService', 'uiGridConstants', 'alertService', 'tagsService',
+    function ($scope, $http, $filter, $interval, $timeout, expenseService, uiGridConstants, alertService, tagsService) {
 
         var lowEnd = 1;
         var highEnd = 99;
@@ -11,11 +11,12 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
             $scope.amounts.push({id: lowEnd, value: lowEnd});
             lowEnd++;
         }
+        $scope.selectedTags = [];
 
-        $scope.komonerTags = [
+      /*  $scope.komonerTags = [
             {name: "Courses", editable: true, image: "http://localhost:3000/images/tags/vegetables.png", color: "#00CC00", mode: "small"},
             {name: "Loisirs", editable: true, image: "http://localhost:3000/images/tags/football.png", color: "#FF9900"}
-        ];
+        ];*/
 
         $scope.gridOptions = {
             enableRowSelection: true,
@@ -30,7 +31,7 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
             columnDefs: [
                 // default
                 { field: 'name', filter: {placeholder: 'Filter by name'} },
-                { field: 'tags',
+                { field: '_tags',
                   cellTemplate : "<div class=\"ui-grid-cell-contents ng-scope ng-binding\">{{COL_FIELD CUSTOM_FILTERS}}<komoner-tags></komoner-tags></div>"
                 },
                 { field: 'date', filter: {
@@ -90,18 +91,16 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
 
         $scope.komonerId = "54c7a0c902dbfa0c1f0afe5a";
 
-        /*  $scope.displayKomoner = function () {
-         expenseService.getKomoner($scope.komonerId).then(function (result) {
-         console.log(result);
-         $scope.komoner = result;
-         });
-
-         };*/
-
         $scope.getKomonerExpenses = function () {
             expenseService.getExpensesOfKomoner($scope.komonerId).then(function (result) {
                 $scope.expenses = result;
                 $scope.gridOptions.data = $scope.expenses;
+            });
+        };
+
+        $scope.getKomonerTags = function () {
+            tagsService.getKomonerTags($scope.komonerId).then(function (result) {
+                $scope.komonerTags = result;
             });
         };
 
@@ -147,13 +146,23 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
 
 
         $scope.addKomonerExpense = function () {
+
+            //Get ids of selected tags
+
+            var selectedTagsIds = [];
+
+            for(var i=0; i<$scope.selectedTags.length; i++){
+                selectedTagsIds.push($scope.selectedTags[i]._id);
+            }
+
+
             var expense = {
                 _komoner: $scope.komonerId,
                 name: $scope.name,
                 date: $filter('date')($scope.date, 'shortDate', 'fr_FR'),
                 comment: $scope.comment,
-                //   tags: [Schema.Types.ObjectId],
-                amount: $scope.amount,
+                _tags: selectedTagsIds,
+                amount: $scope.amount.value,
                 price: $scope.price
             };
 
@@ -170,7 +179,16 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
             gridApi.rowEdit.on.saveRow($scope, $scope.saveExpense);
         };
 
-        $scope.switchMonth(new Date());
+        function initialize()
+        {
+            //Default date
+            $scope.switchMonth(new Date());
+            $scope.getKomonerTags();
+        }
+
+        initialize();
+
+
 
         $scope.deleteKomonerExpenses = function () {
             angular.forEach($scope.gridApi.selection.getSelectedRows(), function (expense, index) {
