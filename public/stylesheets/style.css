@@ -30,6 +30,13 @@ a {
     padding: 2px;
 }
 
+.actionLink
+{
+    text-decoration: underline;
+    font-weight: bold;
+    cursor: pointer;
+}
+
 .komonerTag img {
     width: 50px;
     height: 50px;

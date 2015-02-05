@@ -4,7 +4,8 @@ block content
     div.page(ng-controller='expenseController', ng-view, class='{{pageClass}}')
         h3 Expenses
         alert-notification
-        ng-form(name="addExpense")
+        span(ng-click="showAddExpense=!showAddExpense", class="actionLink") Add an expense
+        ng-form(name="addExpense", ng-show="showAddExpense")
             div(class="row")
                 label(class="control-label") Your tags
                 div() Click to tag your expense
@@ -50,26 +51,26 @@ block content
             div(class="row")
                     button(type="button", class="btn btn-primary", ng-click="addKomonerExpense()") Add
 
-            div(class="row")
-                button(type="button", class="btn btn-info", ng-click="deleteKomonerExpenses()") Remove
+        div(class="row")
+            button(type="button", class="btn btn-info", ng-click="deleteKomonerExpenses()") Remove
 
-            div(class="row")
-                div(class="col-md-2")
-                    button(type="button" class="btn btn-default", aria-label="Previous", ng-click="prevMonth()")
-                        span(class="glyphicon glyphicon-menu-left", aria-hidden="true")
-                div(class="col-md-2")
-                    label(class="control-label", for="dateSwitch") Month
-                    div(class="input-group")
-                        input(type="text", class="form-control", ng-change="switchMonth(dateSwitch)", datepicker-mode="'month'", datepicker-popup="MMMM yyyy", ng-model="dateSwitch", is-open="switchOpened", min-date="minDate", datepicker-options="dateSwitchOptions", date-disabled="disabled(date, mode)", ng-required="true", close-text="Close")
-                        span(class="input-group-btn")
-                            button(type="button", class="btn btn-default", ng-click="openSwitch($event)")
-                                i(class="glyphicon glyphicon-calendar")
-                div(class="col-md-2")
-                    button(type="button" class="btn btn-default", aria-label="Next", ng-click="nextMonth()")
-                        span(class="glyphicon glyphicon-menu-right", aria-hidden="true")
-                div(class="col-md-2")
-            div(class="grid", ui-grid="gridOptions", ui-grid-selection, ng-animate=" 'animate' ",ui-grid-edit, ui-grid-row-edit, ui-grid-cellNav)
-                div(class="watermark" ng-show="!gridOptions.data.length") No expense for this month.
+        div(class="row")
+            div(class="col-md-2")
+                button(type="button" class="btn btn-default", aria-label="Previous", ng-click="prevMonth()")
+                    span(class="glyphicon glyphicon-menu-left", aria-hidden="true")
+            div(class="col-md-2")
+                label(class="control-label", for="dateSwitch") Month
+                div(class="input-group")
+                    input(type="text", class="form-control", ng-change="switchMonth(dateSwitch)", datepicker-mode="'month'", datepicker-popup="MMMM yyyy", ng-model="dateSwitch", is-open="switchOpened", min-date="minDate", datepicker-options="dateSwitchOptions", date-disabled="disabled(date, mode)", ng-required="true", close-text="Close")
+                    span(class="input-group-btn")
+                        button(type="button", class="btn btn-default", ng-click="openSwitch($event)")
+                            i(class="glyphicon glyphicon-calendar")
+            div(class="col-md-2")
+                button(type="button" class="btn btn-default", aria-label="Next", ng-click="nextMonth()")
+                    span(class="glyphicon glyphicon-menu-right", aria-hidden="true")
+            div(class="col-md-2")
+        div(class="grid", ui-grid="gridOptions", ui-grid-selection, ng-animate=" 'animate' ",ui-grid-edit, ui-grid-row-edit, ui-grid-cellNav)
+            div(class="watermark" ng-show="!gridOptions.data.length") No expense for this month.
 
 
 
