@@ -6,26 +6,23 @@ angular.module('komon.directives').directive('komonTags', ['$timeout', function 
     return {
         restrict: 'EA',
         templateUrl: 'js/tags/komonTag.tpl.html',
+        scope: {
+             item:"=",
+             selectedItems:"=",
+             mode:"@mode"
+        },
         controller: ['$scope', '$element', '$attrs', 'tagsService', function ($scope, $element, $attrs, tagsService) {
 
-            $scope.loadKomonerTags = function (query) {
-                var promise = tagsService.getKomonerTags($scope.komonerId, query);
-                promise.then(function(result)
-                {
-                    console.log(result);
-                });
-                return promise;
-            };
-        }],
-        link: function (scope, elem, attrs) {
-            //Style the tag element from tag data
-            var tagElement = elem.children('.komonerTag');
-            tagElement.css("background-color", scope.komonerTag.color);
+            //Small tags mode if attribute = small
+            if($scope.mode == 'small')
+            {
+                $scope.item.mode = "small";
+            }
 
             function isSelected(tag)
             {
-                for(var i=0; i<scope.selectedTags.length; i++){
-                    if(scope.selectedTags[i] === tag){
+                for(var i=0; i<$scope.selectedItems.length; i++){
+                    if($scope.selectedItems[i] === tag){
                         return true;
                     }
                 }
@@ -33,12 +30,20 @@ angular.module('komon.directives').directive('komonTags', ['$timeout', function 
             }
 
             //Select tag
-            scope.selectTag = function(tag)
-                {
-                    if(!isSelected(tag))
-                    scope.selectedTags.push(tag);
-                };
+            $scope.selectTag = function(tag)
+            {
+                if(!isSelected(tag))
+                    $scope.selectedItems.push(tag);
+            };
 
+
+        }],
+
+        link: function (scope, elem, attrs) {
+
+            //Style the tag element from tag data
+            var tagElement = elem.children('.komonerTag');
+            tagElement.css("background-color", scope.item.color);
 
         }
     }
@@ -66,4 +71,28 @@ angular.module('komon.directives').directive('komonTags', ['$timeout', function 
 
         }
     }
-}]);
+}]).directive('tagsFilter', ['$timeout', function ($timeout) {
+    return {
+        restrict: 'EA',
+        templateUrl: 'js/tags/tagsFilter.tpl.html',
+        controller: ['$scope', '$element', '$attrs', 'tagsService', function ($scope, $element, $attrs, tagsService) {
+
+        }],
+        link: function (scope, elem, attrs) {
+            //Style the tag element from tag data
+            var tagElement = elem.children('.komonerTag');
+            tagElement.css("background-color", scope.komonerTag.color);
+
+            //Select or unselect tag
+            scope.selectTag = function(tag)
+            {
+                for(var i=0; i<scope.selectedTags.length; i++){
+                    if(scope.selectedTags[i] === tag){
+                        scope.selectedTags.splice(i, 1);
+                    }
+                }
+            }
+
+        }
+    }
+}]);;

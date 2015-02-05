@@ -11,20 +11,15 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
             $scope.amounts.push({id: lowEnd, value: lowEnd});
             lowEnd++;
         }
-        $scope.selectedTags = [];
 
-      /*  $scope.komonerTags = [
-            {name: "Courses", editable: true, image: "http://localhost:3000/images/tags/vegetables.png", color: "#00CC00", mode: "small"},
-            {name: "Loisirs", editable: true, image: "http://localhost:3000/images/tags/football.png", color: "#FF9900"}
-        ];*/
+        $scope.selectedTags = [];
 
         $scope.gridOptions = {
             enableRowSelection: true,
             enableRowHeaderSelection: true,
             modifierKeysToMultiSelect: true,
             //  enableCellEditOnFocus: true,
-            selectionRowHeaderWidth: 35,
-            rowHeight: 35,
+            rowHeight: 50,
             noUnselect: false,
             enableSelectAll: true,
             enableFiltering: true,
@@ -32,7 +27,7 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
                 // default
                 { field: 'name', filter: {placeholder: 'Filter by name'} },
                 { field: '_tags',
-                  cellTemplate : "<div class=\"ui-grid-cell-contents ng-scope ng-binding\">{{COL_FIELD CUSTOM_FILTERS}}<komoner-tags></komoner-tags></div>"
+                  cellTemplate : '<div ng-repeat="tag in row.entity._tags"><komon-tags item="tag" mode="small"></komon-tags></div>'
                 },
                 { field: 'date', filter: {
                     noTerm: true,
@@ -65,7 +60,8 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
                             condition: uiGridConstants.filter.LESS_THAN,
                             placeholder: 'less than'
                         }
-                    ]
+                    ],
+                    cellTemplate : '<div>{{row.entity.price | currency:"€"}}</div>'
                 },
                 // custom condition function
                 {
@@ -107,10 +103,10 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
         function emptyForm() {
             $scope.name = null;
             $scope.tags = null;
-            $scope.date = null;
             $scope.comment = null;
             $scope.price = null;
-            $scope.amount = null;
+            $scope.amount = $scope.amounts[0];
+            $scope.date = moment().format('YYYY-MM-DD');
         }
 
         $scope.dateSwitchOptions =
@@ -184,6 +180,8 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
             //Default date
             $scope.switchMonth(new Date());
             $scope.getKomonerTags();
+            $scope.amount = $scope.amounts[0];
+            $scope.date = moment().format('YYYY-MM-DD');
         }
 
         initialize();

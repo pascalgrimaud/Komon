@@ -16,16 +16,18 @@ a {
     box-shadow: 0px 0px 3pt 2pt rgb(48, 48, 48);
     border: 3px white solid;
     padding: 3px;
+    float: left;
 }
 
 .smallKomonerTag {
-    font-size: 7px;
-    width: 41px;
-    height: 41px;
+    margin: 3px;
+    font-size: 8px;
+    width: 45px;
+    height: 45px;
     border-radius: 10px;
-    box-shadow: 0px 0px 2pt 1pt rgb(48, 48, 48);
+    box-shadow: 0px 0px 1pt 0pt rgb(48, 48, 48);
     border: 2px white solid;
-    padding: 3px;
+    padding: 2px;
 }
 
 .komonerTag img {
@@ -36,8 +38,8 @@ a {
 }
 
 .smallKomonerTag img {
-    width: 25px;
-    height: 25px;
+    width: 20px;
+    height: 20px;
     display: block;
     margin: auto;
 }
@@ -67,10 +69,6 @@ a {
     left: 20px;
     right: 20px;
     z-index: 999;
-}
-
-.ui-grid-row-header-cell {
-    height: 35px;
 }
 
 .watermark {
