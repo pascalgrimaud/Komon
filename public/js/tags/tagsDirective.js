@@ -51,6 +51,8 @@ angular.module('komon.directives').directive('komonTags', [function () {
                 {
                     $scope.unselectTag(tag);
                 }
+
+                $scope.$emit('tagFilterChange');
             };
 
         }],

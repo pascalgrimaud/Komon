@@ -15,6 +15,15 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
         $scope.selectedTags = [];
         $scope.selectedTagFilters = [];
 
+        $scope.$on('tagFilterChange', function (event) {
+
+            /* for (var i = 0; i < $scope.selectedTagFilters.length; i++) {
+             if ($scope.selectedItems[i] === tag) {
+             $scope.selectedItems.splice(i, 1);
+             }
+             }*/
+        });
+
         $scope.gridOptions = {
             enableRowSelection: true,
             enableRowHeaderSelection: true,
@@ -26,15 +35,34 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
             enableFiltering: true,
             columnDefs: [
                 // default
-                { field: 'name', filter: {placeholder: 'Filter by name'} },
-                { field: '_tags',
-                  cellTemplate : '<div ng-repeat="tag in row.entity._tags"><komon-tags item="tag" mode="small"></komon-tags></div>'
+                { field: 'name', filter: {
+                    placeholder: 'Filter by name'
+                }
                 },
-                { field: 'date', filter: {
+                { field: '_tags',
+                    cellTemplate: '<div ng-repeat="tag in row.entity._tags"><komon-tags item="tag" mode="small"></komon-tags></div>',
+                    enableFiltering: true,
+                    filter: {
+                        noTerm: true,
+                        condition: function (searchTerm, cellValue, row, column) {
+
+                            //TODO : compare array
+                   /*         for (var i = 0; i < $scope.selectedTagFilters.length; i++) {
+                               $scope.selectedTags[i]._id
+                            }*/
+
+                             console.log($scope.selectedTagFilters);
+                            console.log(row.entity._tags);
+                            console.log(intersect(row.entity._tags, $scope.selectedTagFilters));
+                          /*  row.entity._tags;
+                            console.log(row);*/
+                            return false;
+                        }
+
+                    }
+                },
+                { field: 'date',
                     noTerm: true,
-                    condition: function (searchTerm, cellValue) {
-                        return cellValue.match(/a/);
-                    }},
                     cellFilter: 'date:\'dd/MM/yyyy\'',
                     width: '100',
                     editableCellTemplate: '<input type="text" datepicker-popup="dd/MM/yyyy" datepicker-append-to-body=true ng-model="date" />'
@@ -62,7 +90,7 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
                             placeholder: 'less than'
                         }
                     ],
-                    cellTemplate : '<div>{{row.entity.price | currency:"€"}}</div>'
+                    cellTemplate: '<div>{{row.entity.price | currency:"€"}}</div>'
                 },
                 // custom condition function
                 {
@@ -70,10 +98,11 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
                     editDropdownOptionsArray: $scope.amounts
                 }
             ]
-        };
+        }
+        ;
 
 
-        //Open datepicker
+//Open datepicker
         $scope.openDatepicker = function ($event) {
             $event.preventDefault();
             $event.stopPropagation();
@@ -81,7 +110,7 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
             $scope.opened = true;
         };
 
-        //Open datapicker for quick month switch
+//Open datapicker for quick month switch
         $scope.openSwitch = function ($event) {
             $event.preventDefault();
             $event.stopPropagation();
@@ -91,7 +120,7 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
 
         $scope.komonerId = "54c7a0c902dbfa0c1f0afe5a";
 
-        //Get all expenses of komoner
+//Get all expenses of komoner
         $scope.getKomonerExpenses = function () {
             expenseService.getExpensesOfKomoner($scope.komonerId).then(function (result) {
                 $scope.expenses = result;
@@ -99,7 +128,7 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
             });
         };
 
-        //Get all tags of komoner
+//Get all tags of komoner
         $scope.getKomonerTags = function () {
             tagsService.getKomonerTags($scope.komonerId).then(function (result) {
                 $scope.komonerTags = result;
@@ -107,7 +136,7 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
         };
 
 
-        //Empty the add expense form
+//Empty the add expense form
         function emptyForm() {
             $scope.name = null;
             $scope.tags = null;
@@ -117,16 +146,16 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
             $scope.date = moment().format('YYYY-MM-DD');
         }
 
-        //Display mode for datapicker quick month switch
+//Display mode for datapicker quick month switch
         $scope.dateSwitchOptions =
         {
             minMode: "month"
         };
 
-        //Default displayed value
+//Default displayed value
         $scope.dateSwitch = moment().format('MMMM YYYY');
 
-        //Quick month switch
+//Quick month switch
         $scope.switchMonth = function (date) {
 
             var newYear = moment(date).format('YYYY');
@@ -138,7 +167,7 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
             });
         };
 
-        //Quick month switch forward
+//Quick month switch forward
         $scope.prevMonth = function () {
             $scope.dateSwitch = moment($scope.dateSwitch).subtract(1, 'month');
             $scope.switchMonth($scope.dateSwitch);
@@ -146,7 +175,7 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
         };
 
 
-        //Quick month switch backwards
+//Quick month switch backwards
         $scope.nextMonth = function () {
             $scope.dateSwitch = moment($scope.dateSwitch).add(1, 'month');
             $scope.switchMonth($scope.dateSwitch);
@@ -154,14 +183,14 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
         };
 
 
-        //Add an expense
+//Add an expense
         $scope.addKomonerExpense = function () {
 
             //Get ids of selected tags
 
             var selectedTagsIds = [];
 
-            for(var i=0; i<$scope.selectedTags.length; i++){
+            for (var i = 0; i < $scope.selectedTags.length; i++) {
                 selectedTagsIds.push($scope.selectedTags[i]._id);
             }
 
@@ -189,8 +218,7 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
             gridApi.rowEdit.on.saveRow($scope, $scope.saveExpense);
         };
 
-        function initialize()
-        {
+        function initialize() {
             //Default date
             $scope.switchMonth(new Date());
             $scope.getKomonerTags();
@@ -199,7 +227,6 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
         }
 
         initialize();
-
 
 
         $scope.deleteKomonerExpenses = function () {
@@ -227,4 +254,5 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
             });
 
         };
-    }]);
+    }])
+;

@@ -69,7 +69,7 @@ block content
                 button(type="button" class="btn btn-default", aria-label="Next", ng-click="nextMonth()")
                     span(class="glyphicon glyphicon-menu-right", aria-hidden="true")
 
-            komon-tags(item="komonerTag", selected-items="selectedTagFilters", mode="filter", ng-repeat="komonerTag in komonerTags", action="toggleTagFilter(item)")
+            komon-tags(item="komonerTag", selected-items="selectedTagFilters", mode="filter", ng-repeat="komonerTag in komonerTags track by komonerTag._id", action="toggleTagFilter(item)")
 
 
             div(class="col-md-2")
