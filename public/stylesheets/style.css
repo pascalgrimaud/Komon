@@ -17,6 +17,7 @@ a {
     border: 3px white solid;
     padding: 3px;
     float: left;
+    cursor: pointer;
 }
 
 .smallKomonerTag {
