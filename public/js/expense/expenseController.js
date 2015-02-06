@@ -13,6 +13,7 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
         }
 
         $scope.selectedTags = [];
+        $scope.selectedTagFilters = [];
 
         $scope.gridOptions = {
             enableRowSelection: true,

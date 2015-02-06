@@ -68,6 +68,10 @@ block content
             div(class="col-md-2")
                 button(type="button" class="btn btn-default", aria-label="Next", ng-click="nextMonth()")
                     span(class="glyphicon glyphicon-menu-right", aria-hidden="true")
+
+            komon-tags(item="komonerTag", selected-items="selectedTagFilters", mode="filter", ng-repeat="komonerTag in komonerTags", action="toggleTagFilter(item)")
+
+
             div(class="col-md-2")
         div(class="grid", ui-grid="gridOptions", ui-grid-selection, ng-animate=" 'animate' ",ui-grid-edit, ui-grid-row-edit, ui-grid-cellNav)
             div(class="watermark" ng-show="!gridOptions.data.length") No expense for this month.

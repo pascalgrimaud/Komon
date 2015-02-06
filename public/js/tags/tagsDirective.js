@@ -2,39 +2,34 @@
  * Created by Komo on 03/02/2015.
  */
 
-angular.module('komon.directives').directive('komonTags', ['$timeout', function ($timeout) {
+angular.module('komon.directives').directive('komonTags', [function () {
     return {
         restrict: 'EA',
         templateUrl: 'js/tags/komonTag.tpl.html',
         scope: {
              item:"=",
              selectedItems:"=",
-             mode:"@mode",
+             mode:"@",
              action:"@"
         },
         controller: ['$scope', '$element', '$attrs', 'tagsService', function ($scope, $element, $attrs, tagsService) {
 
-            //Small tags mode if attribute = small
-            if($scope.mode == 'small')
-            {
-                $scope.item.mode = "small";
-            }
-
             //Checks if a tag is in the selectedItems array
-            function isSelected(tag)
+            $scope.isSelected = function(tag)
             {
+                if(!angular.isUndefined($scope.selectedItems))
                 for(var i=0; i<$scope.selectedItems.length; i++){
                     if($scope.selectedItems[i] === tag){
                         return true;
                     }
                 }
                 return false;
-            }
+            };
 
             //Select tag : add tag in selectedItems array
             $scope.selectTag = function(tag)
             {
-                if(!isSelected(tag))
+                if(!$scope.isSelected(tag))
                     $scope.selectedItems.push(tag);
             };
 
@@ -46,7 +41,17 @@ angular.module('komon.directives').directive('komonTags', ['$timeout', function 
                         $scope.selectedItems.splice(i, 1);
                     }
                 }
-            }
+            };
+
+            $scope.toggleTagFilter = function(tag)
+            {
+                if(!$scope.isSelected(tag))
+                    $scope.selectedItems.push(tag);
+                else
+                {
+                    $scope.unselectTag(tag);
+                }
+            };
 
         }],
 
