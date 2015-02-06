@@ -9,7 +9,8 @@ angular.module('komon.directives').directive('komonTags', ['$timeout', function 
         scope: {
              item:"=",
              selectedItems:"=",
-             mode:"@mode"
+             mode:"@mode",
+             pop:"="
         },
         controller: ['$scope', '$element', '$attrs', 'tagsService', function ($scope, $element, $attrs, tagsService) {
 
