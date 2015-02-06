@@ -71,6 +71,8 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
             ]
         };
 
+
+        //Open datepicker
         $scope.openDatepicker = function ($event) {
             $event.preventDefault();
             $event.stopPropagation();
@@ -78,6 +80,7 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
             $scope.opened = true;
         };
 
+        //Open datapicker for quick month switch
         $scope.openSwitch = function ($event) {
             $event.preventDefault();
             $event.stopPropagation();
@@ -87,6 +90,7 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
 
         $scope.komonerId = "54c7a0c902dbfa0c1f0afe5a";
 
+        //Get all expenses of komoner
         $scope.getKomonerExpenses = function () {
             expenseService.getExpensesOfKomoner($scope.komonerId).then(function (result) {
                 $scope.expenses = result;
@@ -94,12 +98,15 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
             });
         };
 
+        //Get all tags of komoner
         $scope.getKomonerTags = function () {
             tagsService.getKomonerTags($scope.komonerId).then(function (result) {
                 $scope.komonerTags = result;
             });
         };
 
+
+        //Empty the add expense form
         function emptyForm() {
             $scope.name = null;
             $scope.tags = null;
@@ -109,6 +116,7 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
             $scope.date = moment().format('YYYY-MM-DD');
         }
 
+        //Display mode for datapicker quick month switch
         $scope.dateSwitchOptions =
         {
             minMode: "month"
@@ -117,6 +125,7 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
         //Default displayed value
         $scope.dateSwitch = moment().format('MMMM YYYY');
 
+        //Quick month switch
         $scope.switchMonth = function (date) {
 
             var newYear = moment(date).format('YYYY');
@@ -128,12 +137,15 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
             });
         };
 
+        //Quick month switch forward
         $scope.prevMonth = function () {
             $scope.dateSwitch = moment($scope.dateSwitch).subtract(1, 'month');
             $scope.switchMonth($scope.dateSwitch);
             $scope.dateSwitch = moment($scope.dateSwitch).format('MMMM YYYY');
         };
 
+
+        //Quick month switch backwards
         $scope.nextMonth = function () {
             $scope.dateSwitch = moment($scope.dateSwitch).add(1, 'month');
             $scope.switchMonth($scope.dateSwitch);
@@ -141,6 +153,7 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
         };
 
 
+        //Add an expense
         $scope.addKomonerExpense = function () {
 
             //Get ids of selected tags

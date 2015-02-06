@@ -9,7 +9,7 @@ block content
             div(class="row")
                 label(class="control-label") Your tags
                 div() Click to tag your expense
-                komon-tags(item="komonerTag", selected-items="selectedTags", ng-repeat="komonerTag in komonerTags")
+                komon-tags(item="komonerTag", selected-items="selectedTags", ng-repeat="komonerTag in komonerTags", action="selectTag(item)")
             div(class="row")
                 div(class="col-md-2")
                     label(class="control-label", for="name") Name
@@ -18,7 +18,7 @@ block content
                 div(class="col-md-2")
                     label(class="control-label", for="tags") Tags
                     div() Click to unselect
-                    selected-tags(ng-repeat="komonerTag in selectedTags")
+                    komon-tags(item="komonerTag", selected-items="selectedTags", ng-repeat="komonerTag in selectedTags", action="unselectTag(item)")
 
                 div(class="col-md-2")
                     label(class="control-label", for="date") Date
