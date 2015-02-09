@@ -25,6 +25,7 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
         });
 
         $scope.gridOptions = {
+            data: 'filteredEntries',
             enableRowSelection: true,
             enableRowHeaderSelection: true,
             modifierKeysToMultiSelect: true,
@@ -41,25 +42,7 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
                 },
                 { field: '_tags',
                     cellTemplate: '<div ng-repeat="tag in row.entity._tags"><komon-tags item="tag" mode="small"></komon-tags></div>',
-                    enableFiltering: true,
-                    filter: {
-                        noTerm: true,
-                        condition: function (searchTerm, cellValue, row, column) {
-
-                            //TODO : compare array
-                   /*         for (var i = 0; i < $scope.selectedTagFilters.length; i++) {
-                               $scope.selectedTags[i]._id
-                            }*/
-
-                             console.log($scope.selectedTagFilters);
-                            console.log(row.entity._tags);
-                            console.log(intersect(row.entity._tags, $scope.selectedTagFilters));
-                          /*  row.entity._tags;
-                            console.log(row);*/
-                            return false;
-                        }
-
-                    }
+                    enableFiltering: false
                 },
                 { field: 'date',
                     noTerm: true,
@@ -163,7 +146,7 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
 
             expenseService.getExpenseByMonth($scope.komonerId, newYear, newMonth).then(function (result) {
                 $scope.expenses = result;
-                $scope.gridOptions.data = $scope.expenses;
+                $scope.filteredEntries = result;
             });
         };
 
@@ -254,5 +237,43 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
             });
 
         };
-    }])
-;
+
+        $scope.tagFilter = function(entry)
+        {
+            var tags = entry._tags;
+            //Check if all selected tag filters are in the entry tags
+
+            for(var i=0; i<$scope.selectedTagFilters.length; i++){
+                if(!$scope.isInArray($scope.selectedTagFilters[i], tags))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+
+        };
+
+        //Checks if element is in array
+        $scope.isInArray = function(element, array)
+        {
+            for(var i=0; i<array.length; i++){
+
+                    if(angular.equals(array[i], element)){
+                        return true;
+                    }
+            }
+            return false;
+        };
+
+        $scope.$on('updateFilters', function(event, data) {
+            // Filters the full set and hands the result to the grid.
+            $scope.updateFilters();
+        });
+
+        $scope.updateFilters = function(){
+            $scope.filteredEntries = $filter('filter')($scope.expenses, $scope.tagFilter);
+        }
+
+
+    }]);
