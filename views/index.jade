@@ -5,16 +5,16 @@ block content
         h3 Expenses
         alert-notification
         span(ng-click="showAddExpense=!showAddExpense", class="actionLink") Add an expense
-        ng-form(name="addExpense", ng-show="showAddExpense", class="has-feedback", ng-class="{'has-error': addExpense.$invalid && addExpense.$dirty}")
+        ng-form(name="addExpense", ng-show="showAddExpense", class="has-feedback", ng-class="{'has-error': addExpense.$invalid && addExpense.$dirty, 'has-success': addExpense.$valid}")
             div(class="row")
-                span(ng-show="addExpense.$dirty", class="glyphicon form-control-feedback", ng-class="{'glyphicon-ok': addExpense.$valid, 'glyphicon-remove ': addExpense.$invalid}", aria-hidden="true")
+                span(ng-show="addExpense.$dirty", class="glyphicon form-control-feedback", ng-class="{'glyphicon-ok': addExpense.$valid, 'glyphicon-remove ': addExpense.$invalid && addExpense.$dirty}", aria-hidden="true")
                 label(class="control-label") Your tags
                 div() Click to tag your expense
                 komon-tags(item="komonerTag", selected-items="selectedTags", ng-repeat="komonerTag in komonerTags", action="selectTag(item)")
             div(class="row")
                 div(class="col-md-2")
                     label(class="control-label", for="name") Name
-                    input(required type="text", name="name", ng-model="name", class="form-control")
+                    input(required type="text", name="name", ng-model="name", class="form-control", tooltip="{{(addExpense.name.$invalid) ? 'You must enter a name.' : ''}}")
 
                 div(class="col-md-2")
                     label(class="control-label", for="tags") Tags
@@ -40,7 +40,7 @@ block content
                 div(class="col-md-2")
                     label(class="control-label", for="price") Price
                     div(class="input-group")
-                        input(type="text", name="price", ng-model="price", class="form-control")
+                        input(type="text", name="price", ng-model="price", class="form-control", ng-pattern="/^[0-9]{1,7}(\.[0-9]+)?$/", tooltip="{{(addExpense.price.$invalid) ? 'Format must be a number separated by . or ,' : ''}}")
                         span(class="input-group-btn")
                             button(type="button", class="btn btn-default")
                                 i(class="glyphicon glyphicon-euro")

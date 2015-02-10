@@ -15,15 +15,6 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
         $scope.selectedTags = [];
         $scope.selectedTagFilters = [];
 
-        $scope.$on('tagFilterChange', function (event) {
-
-            /* for (var i = 0; i < $scope.selectedTagFilters.length; i++) {
-             if ($scope.selectedItems[i] === tag) {
-             $scope.selectedItems.splice(i, 1);
-             }
-             }*/
-        });
-
         $scope.gridOptions = {
             enableRowSelection: true,
             enableRowHeaderSelection: true,
@@ -134,6 +125,7 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
             $scope.price = null;
             $scope.amount = $scope.amounts[0];
             $scope.date = moment().format('YYYY-MM-DD');
+            $scope.addExpense.$setPristine();
         }
 
 //Display mode for datapicker quick month switch
@@ -184,7 +176,6 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
                 selectedTagsIds.push($scope.selectedTags[i]._id);
             }
 
-
             var expense = {
                 _komoner: $scope.komonerId,
                 name: $scope.name,
@@ -192,7 +183,7 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
                 comment: $scope.comment,
                 _tags: selectedTagsIds,
                 amount: $scope.amount.value,
-                price: $scope.price
+                price: $scope.price === null || angular.isUndefined($scope.price) ? 0 : $scope.price.replace(",",".")
             };
 
             expenseService.addExpense(expense).then(function (result) {

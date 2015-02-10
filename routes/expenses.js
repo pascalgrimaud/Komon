@@ -38,7 +38,10 @@ router.get('/komoner/:id/year/:year/month/:month', function(req, res, next) {
 router.post('/', function(req, res, next) {
     var expense = new Expense(req.body);
     expense.save(function (err, post) {
-        if (err) return next(err);
+        if (err) {
+            console.log(err);
+            return next(err);
+        }
         res.json(post);
     });
 });
