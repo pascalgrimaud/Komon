@@ -14,7 +14,8 @@ block content
             div(class="row")
                 div(class="col-md-2")
                     label(class="control-label", for="name") Name
-                    input(required type="text", name="name", ng-model="name", class="form-control", tooltip="{{(addExpense.name.$invalid) ? 'You must enter a name.' : ''}}")
+                    span(class="glyphicon glyphicon-asterisk", aria-hidden="true", tooltip-trigger="mouseenter", tooltip="You must enter a name.")
+                    input(required type="text", name="name", ng-model="name", class="form-control", tooltip-trigger="keyup", tooltip="{{(addExpense.name.$invalid) ? 'You must enter a name.' : ''}}")
 
                 div(class="col-md-2")
                     label(class="control-label", for="tags") Tags
@@ -40,7 +41,7 @@ block content
                 div(class="col-md-2")
                     label(class="control-label", for="price") Price
                     div(class="input-group")
-                        input(type="text", name="price", ng-model="price", class="form-control", ng-pattern="/^[0-9]{1,7}(\.[0-9]+)?$/", tooltip="{{(addExpense.price.$invalid) ? 'Format must be a number separated by . or ,' : ''}}")
+                        input(type="text", name="price", ng-model="price", class="form-control", ng-pattern="/^[0-9]{1,7}(\.[0-9]+)?$/", tooltip-trigger="keyup", tooltip="{{(addExpense.price.$invalid) ? 'Format must be a number separated by . or ,' : ''}}")
                         span(class="input-group-btn")
                             button(type="button", class="btn btn-default")
                                 i(class="glyphicon glyphicon-euro")
