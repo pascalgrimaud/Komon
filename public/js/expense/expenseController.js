@@ -37,17 +37,21 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
                 // default
                 { field: 'name', filter: {
                     placeholder: 'Filter by name'
-                }
+                },
+                    headerCellClass: 'gridHeader',
+                    cellClass: 'gridCell'
                 },
                 { field: '_tags',
                     cellTemplate: '<div ng-repeat="tag in row.entity._tags"><komon-tags item="tag" mode="small"></komon-tags></div>',
-                    enableFiltering: false
+                    enableFiltering: false,
+                    headerCellClass: 'gridHeader'
                 },
                 { field: 'date',
                     noTerm: true,
                     cellFilter: 'date:\'dd/MM/yyyy\'',
                     width: '100',
-                    editableCellTemplate: '<input type="text" datepicker-popup="dd/MM/yyyy" datepicker-append-to-body=true ng-model="date" />'
+                    editableCellTemplate: '<input type="text" datepicker-popup="dd/MM/yyyy" datepicker-append-to-body=true ng-model="row.entity.date" />',
+                    headerCellClass: 'gridHeader'
                 },
                 // no filter input
                 { field: 'comment', enableFiltering: false, filter: {
@@ -55,7 +59,9 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
                     condition: function (searchTerm, cellValue) {
                         return cellValue.match(/a/);
                     }
-                }},
+                },
+                    headerCellClass: 'gridHeader'
+                },
                 // specifies one of the built-in conditions
                 // and a placeholder for the input
                 {
@@ -72,12 +78,14 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
                             placeholder: 'less than'
                         }
                     ],
-                    cellTemplate: '<div>{{row.entity.price | currency:"€"}}</div>'
+                    cellTemplate: '<div>{{row.entity.price | currency:"€"}}</div>',
+                    headerCellClass: 'gridHeader'
                 },
                 // custom condition function
                 {
                     field: 'amount', width: '100', enableFiltering: false, editableCellTemplate: 'ui-grid/dropdownEditor',
-                    editDropdownOptionsArray: $scope.amounts
+                    editDropdownOptionsArray: $scope.amounts,
+                    headerCellClass: 'gridHeader'
                 }
             ]
         }
