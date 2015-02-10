@@ -25,7 +25,6 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
         });
 
         $scope.gridOptions = {
-            data: 'filteredEntries',
             enableRowSelection: true,
             enableRowHeaderSelection: true,
             modifierKeysToMultiSelect: true,
@@ -146,7 +145,7 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
 
             expenseService.getExpenseByMonth($scope.komonerId, newYear, newMonth).then(function (result) {
                 $scope.expenses = result;
-                $scope.filteredEntries = result;
+                $scope.gridOptions.data = $scope.expenses;
             });
         };
 
@@ -272,7 +271,7 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
         });
 
         $scope.updateFilters = function(){
-            $scope.filteredEntries = $filter('filter')($scope.expenses, $scope.tagFilter);
+            $scope.gridOptions.data = $filter('filter')($scope.expenses, $scope.tagFilter);
         }
 
 
