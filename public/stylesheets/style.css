@@ -3,7 +3,17 @@ body {
 }
 
 a {
-    color: #00B7FF;
+    color: #000000;
+}
+
+.panel-content
+{
+    padding: 40px;
+}
+
+.noPadding
+{
+    padding: 0px;
 }
 
 .komonerTag {
@@ -48,7 +58,6 @@ a {
 }
 
 .actionLink {
-    text-decoration: underline;
     font-weight: bold;
     cursor: pointer;
 }

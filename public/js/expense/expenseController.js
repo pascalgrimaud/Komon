@@ -185,7 +185,7 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
                 comment: $scope.comment,
                 _tags: selectedTagsIds,
                 amount: $scope.amount.value,
-                price: $scope.price === null || angular.isUndefined($scope.price) ? 0 : $scope.price.replace(",",".")
+                price: $scope.price === null || angular.isUndefined($scope.price) ? 0 : $scope.price.replace(",", ".")
             };
 
             expenseService.addExpense(expense).then(function (result) {
@@ -231,21 +231,25 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
 
             promise.then(function () {
                 $scope.alert = alertService.success("Changes saved.");
-                $timeout(function () {
-                    $scope.alert = null;
-                }, 5000);
+
             });
 
         };
 
-        $scope.tagFilter = function(entry)
-        {
+        $scope.$watch('alert', function () {
+            if ($scope.alert != null) {
+                $timeout(function () {
+                    $scope.alert = null;
+                }, 3500);
+            }
+        });
+
+        $scope.tagFilter = function (entry) {
             var tags = entry._tags;
             //Check if all selected tag filters are in the entry tags
 
-            for(var i=0; i<$scope.selectedTagFilters.length; i++){
-                if(!$scope.isInArray($scope.selectedTagFilters[i], tags))
-                {
+            for (var i = 0; i < $scope.selectedTagFilters.length; i++) {
+                if (!$scope.isInArray($scope.selectedTagFilters[i], tags)) {
                     return false;
                 }
             }
@@ -255,37 +259,35 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
         };
 
         //Checks if element is in array
-        $scope.isInArray = function(element, array)
-        {
-            for(var i=0; i<array.length; i++){
+        $scope.isInArray = function (element, array) {
+            for (var i = 0; i < array.length; i++) {
 
-                    if(angular.equals(array[i], element)){
-                        return true;
-                    }
+                if (angular.equals(array[i], element)) {
+                    return true;
+                }
             }
             return false;
         };
 
-        $scope.$on('updateFilters', function(event, data) {
+        $scope.$on('updateFilters', function (event, data) {
             // Filters the full set and hands the result to the grid.
             $scope.updateFilters();
         });
 
-        $scope.updateFilters = function(){
+        $scope.updateFilters = function () {
             $scope.gridOptions.data = $filter('filter')($scope.expenses, $scope.tagFilter);
         };
 
-            //Update total expenses for the selected month
-         /*   for (var i = 0; i < $scope.expenses.length; i++) {
-                $scope.total += $scope.expenses[i].price * $scope.expenses[i].amount;
-            }*/
+        //Update total expenses for the selected month
+        /*   for (var i = 0; i < $scope.expenses.length; i++) {
+         $scope.total += $scope.expenses[i].price * $scope.expenses[i].amount;
+         }*/
 
-}]).filter("total", function() {
-    return function(items, field) {
+    }]).filter("total", function () {
+    return function (items, field) {
         var total = 0, i = 0;
-        if(!angular.isUndefined(items)) {
-            for (i = 0; i < items.length; i++)
-            {
+        if (!angular.isUndefined(items)) {
+            for (i = 0; i < items.length; i++) {
                 total += items[i][field] * items[i]['amount'];
             }
         }
