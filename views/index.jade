@@ -3,6 +3,8 @@ block content
     div(ng-controller='expenseController')
         alert-notification
         div(snap-drawer="right")
+            div(class="glyphicon glyphicon-cog settings")
+            span(class="actionLink") Manage tags
             div(class="glyphicon glyphicon-menu-right snapToggle snapClose", snap-close)
             h5 Filter by tag
             komon-tags(item="komonerTag", selected-items="selectedTagFilters", mode="filter", ng-repeat="komonerTag in komonerTags track by komonerTag._id", action="toggleTagFilter(item)")
