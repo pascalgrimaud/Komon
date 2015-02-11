@@ -14,6 +14,7 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
 
         $scope.selectedTags = [];
         $scope.selectedTagFilters = [];
+        $scope.total = 0;
 
         $scope.gridOptions = {
             enableRowSelection: true,
@@ -147,6 +148,7 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
                 $scope.expenses = result;
                 $scope.gridOptions.data = $scope.expenses;
             });
+
         };
 
 //Quick month switch forward
@@ -271,7 +273,22 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
 
         $scope.updateFilters = function(){
             $scope.gridOptions.data = $filter('filter')($scope.expenses, $scope.tagFilter);
+        };
+
+            //Update total expenses for the selected month
+         /*   for (var i = 0; i < $scope.expenses.length; i++) {
+                $scope.total += $scope.expenses[i].price * $scope.expenses[i].amount;
+            }*/
+
+}]).filter("total", function() {
+    return function(items, field) {
+        var total = 0, i = 0;
+        if(!angular.isUndefined(items)) {
+            for (i = 0; i < items.length; i++)
+            {
+                total += items[i][field] * items[i]['amount'];
+            }
         }
-
-
-    }]);
+        return total;
+    }
+});

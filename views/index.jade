@@ -75,6 +75,9 @@ block content
             label(class="control-label", for="tagFilter") Filter by tag
             komon-tags(item="komonerTag", selected-items="selectedTagFilters", mode="filter", ng-repeat="komonerTag in komonerTags track by komonerTag._id", action="toggleTagFilter(item)")
 
+            div(class="col-md-2")
+            label(class="control-label", for="total") Total for this month :
+            span(name="total") {{gridOptions.data | total:'price' | currency:"€"}}
 
             div(class="col-md-2")
         div(class="grid", ui-grid="gridOptions", ui-grid-selection, ng-animate=" 'animate' ",ui-grid-edit, ui-grid-row-edit, ui-grid-cellNav)
