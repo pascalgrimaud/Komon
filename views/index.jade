@@ -67,7 +67,8 @@ block content
                                     button(type="button", class="btn btn-primary", ng-click="addKomonerExpense()", ng-disabled="addExpense.$invalid") Add
 
                 div(class="row")
-                    button(type="button", class="btn btn-info", ng-click="deleteKomonerExpenses()", ng-disabled="gridApi.selection.getSelectedRows().length == 0", tooltip-trigger="mouseenter", tooltip-placement="top", tooltip="{{(gridApi.selection.getSelectedRows().length == 0) ? 'To remove an expense, select one or more rows then click the Remove button.' : ''}}" ) Remove
+                    div(class="inlineBlock", tooltip="{{(gridApi.selection.getSelectedRows().length == 0) ? 'To remove an expense, select one or more rows then click the Remove button.' : ''}}")
+                        button(type="button", class="btn btn-info", ng-click="deleteKomonerExpenses()", ng-disabled="gridApi.selection.getSelectedRows().length == 0") Remove
 
                 div(class="row")
                     div(class="col-md-1")

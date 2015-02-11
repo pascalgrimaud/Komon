@@ -145,6 +145,11 @@ snap-content {
     vertical-align: middle;
 }
 
+.inlineBlock
+{
+    display: inline-block;
+}
+
 .page {
     padding: 50px;
     padding-top:0px;
