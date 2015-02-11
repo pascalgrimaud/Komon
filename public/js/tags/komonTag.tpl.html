@@ -1,4 +1,4 @@
-<div class="komonerTag" tooltip="{{item.name}}" tooltip-append-to-body="true" tooltip-animation="true" tooltip-placement="top" ng-class="{smallKomonerTag: mode =='small', selectedTag: mode == 'filter' && isSelected(item)}" tag-color="{{item.color}}" ng-click="{{action}}">
+<div class="komonerTag" tooltip="{{item.name}}" tooltip-append-to-body="true" tooltip-animation="true" tooltip-placement="top" ng-class="{smallKomonerTag: mode =='small', selectedTag: mode == 'filter' && isSelected(item), snapTags: mode == 'filter'}" tag-color="{{item.color}}" ng-click="{{action}}">
     <span>{{item.name}}</span>
     <!--<input type="text" ng-model="item.name">-->
     <img ng-src="images/tags/{{item.image}}">

@@ -20,6 +20,17 @@ a {
     cursor: pointer;
 }
 
+.komonerTag:hover {
+    opacity: 0.8;
+}
+
+.snapTags {
+    float: none;
+    right: 0px;
+    margin: auto;
+    margin-bottom: 10px;
+}
+
 .selectedTag {
     border: 3px black solid;
     opacity: 0.7;
@@ -56,8 +67,35 @@ a {
     margin: auto;
 }
 
-.grid {
+.snapClose {
+    float: none;
     width: 100%;
+    margin-bottom: 10px;
+}
+
+.snapToggle {
+    font-size: 50px;
+    cursor: pointer;
+    float: right;
+}
+
+snap-content {
+    background-color: #fff;
+    border-left: 1px solid #ccc;
+}
+
+.snap-drawer-right {
+    width: 100px;
+    text-align: center;
+    background-color: rgb(179, 186, 234);
+}
+
+.form-control[readonly] {
+    background-color: inherit;
+}
+
+.grid {
+    width: 93%;
     height: 400px;
 }
 
@@ -89,6 +127,7 @@ a {
 .page {
     padding: 50px;
     padding-top: 5px;
+    padding-left: 105px;
 }
 
 .alert {

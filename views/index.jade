@@ -1,89 +1,92 @@
 extends layout
 block content
-    include ./navbar.jade
-    div.page(ng-controller='expenseController', ng-view, class='{{pageClass}}')
-        h3 Expenses
+    div(ng-controller='expenseController')
         alert-notification
-        span(ng-click="showAddExpense=!showAddExpense", class="actionLink") Add an expense
-        ng-form(name="addExpense", ng-show="showAddExpense", class="has-feedback", ng-class="{'has-error': addExpense.$invalid && addExpense.$dirty, 'has-success': addExpense.$valid}")
-            div(class="row")
-                span(ng-show="addExpense.$dirty", class="glyphicon form-control-feedback", ng-class="{'glyphicon-ok': addExpense.$valid, 'glyphicon-remove ': addExpense.$invalid && addExpense.$dirty}", aria-hidden="true")
-                label(class="control-label") Your tags
-                div() Click to tag your expense
-                komon-tags(item="komonerTag", selected-items="selectedTags", ng-repeat="komonerTag in komonerTags", action="selectTag(item)")
-            div(class="row")
-                div(class="col-md-2")
-                    label(class="control-label", for="name") Name
-                    span(class="glyphicon glyphicon-asterisk", aria-hidden="true", tooltip-trigger="mouseenter", tooltip="You must enter a name.")
-                    input(required type="text", name="name", ng-model="name", class="form-control", tooltip-trigger="keyup", tooltip="{{(addExpense.name.$invalid) ? 'You must enter a name.' : ''}}")
-
-                div(class="col-md-2")
-                    label(class="control-label", for="tags") Tags
-                    div() Click to unselect
-                    komon-tags(item="komonerTag", selected-items="selectedTags", ng-repeat="komonerTag in selectedTags", action="unselectTag(item)")
-
-                div(class="col-md-2")
-                    label(class="control-label", for="date") Date
-                    div(class="input-group")
-                        input(type="text", class="form-control", readonly="readonly", datepicker-popup="{{format}}", ng-model="date", is-open="opened", min-date="minDate", datepicker-options="dateOptions", date-disabled="disabled(date, mode)", ng-required="true", close-text="Close")
-                        span(class="input-group-btn")
-                            button(type="button", class="btn btn-default", ng-click="openDatepicker($event)")
-                                i(class="glyphicon glyphicon-calendar")
-
-                div(class="col-md-2")
-                    label(class="control-label", for="comment") Comment
-                    div(class="input-group")
-                        input(type="text", name="comment", ng-model="comment", class="form-control")
-                        span(class="input-group-btn")
-                            button(type="button", class="btn btn-default")
-                                i(class="glyphicon glyphicon-comment")
-
-                div(class="col-md-2")
-                    label(class="control-label", for="price") Price
-                    div(class="input-group")
-                        input(type="text", name="price", ng-model="price", class="form-control", ng-pattern="/^[0-9]{1,7}(\.[0-9]+)?$/", tooltip-trigger="keyup", tooltip="{{(addExpense.price.$invalid) ? 'Format must be a number separated by . or ,' : ''}}")
-                        span(class="input-group-btn")
-                            button(type="button", class="btn btn-default")
-                                i(class="glyphicon glyphicon-euro")
-
-                div(class="col-md-2")
-                    label(class="control-label", for="amount") Amount
-                    select(ng-options="amount as amount.value for amount in amounts", ng-model="amount", class="form-control")
-
-            div(class="row")
-                    button(type="button", class="btn btn-primary", ng-click="addKomonerExpense()", ng-disabled="addExpense.$invalid") Add
-
-        div(class="row")
-            button(type="button", class="btn btn-info", ng-click="deleteKomonerExpenses()") Remove
-
-        div(class="row")
-            div(class="col-md-2")
-                button(type="button" class="btn btn-default", aria-label="Previous", ng-click="prevMonth()")
-                    span(class="glyphicon glyphicon-menu-left", aria-hidden="true")
-            div(class="col-md-2")
-                label(class="control-label", for="dateSwitch") Month
-                div(class="input-group")
-                    input(type="text", readonly="readonly", class="form-control", ng-change="switchMonth(dateSwitch)", datepicker-mode="'month'", datepicker-popup="MMMM yyyy", ng-model="dateSwitch", is-open="switchOpened", min-date="minDate", datepicker-options="dateSwitchOptions", date-disabled="disabled(date, mode)", ng-required="true", close-text="Close")
-                    span(class="input-group-btn")
-                        button(type="button", class="btn btn-default", ng-click="openSwitch($event)")
-                            i(class="glyphicon glyphicon-calendar")
-            div(class="col-md-2")
-                button(type="button" class="btn btn-default", aria-label="Next", ng-click="nextMonth()")
-                    span(class="glyphicon glyphicon-menu-right", aria-hidden="true")
-
-            div(class="col-md-2")
-            label(class="control-label", for="tagFilter") Filter by tag
+        div(snap-drawer="right")
+            div(class="glyphicon glyphicon-menu-right snapToggle snapClose", snap-close)
+            h5 Filter by tag
             komon-tags(item="komonerTag", selected-items="selectedTagFilters", mode="filter", ng-repeat="komonerTag in komonerTags track by komonerTag._id", action="toggleTagFilter(item)")
+        snap-content
+            include ./navbar.jade
 
-            div(class="col-md-2")
-            label(class="control-label", for="total") Total for this month :
-            span(name="total") {{gridOptions.data | total:'price' | currency:"€"}}
+            div.page(ng-view, class='{{pageClass}}')
+                div(snap-toggle="right", class="glyphicon glyphicon-tags snapToggle", aria-hidden="true", tooltip="Tag filter")
 
-            div(class="col-md-2")
-        div(class="grid", ui-grid="gridOptions", ui-grid-selection, ng-animate=" 'animate' ",ui-grid-edit, ui-grid-row-edit, ui-grid-cellNav)
-            div(class="watermark" ng-show="!gridOptions.data.length") No expense for this month.
+                h3 Expenses
+                span(ng-click="showAddExpense=!showAddExpense", class="actionLink") Add an expense
+                ng-form(name="addExpense", ng-show="showAddExpense", class="has-feedback", ng-class="{'has-error': addExpense.$invalid && addExpense.$dirty, 'has-success': addExpense.$valid}")
+                    div(class="row")
+                        span(ng-show="addExpense.$dirty", class="glyphicon form-control-feedback", ng-class="{'glyphicon-ok': addExpense.$valid, 'glyphicon-remove ': addExpense.$invalid && addExpense.$dirty}", aria-hidden="true")
+                        label(class="control-label") Your tags
+                        div() Click to tag your expense
+                        komon-tags(item="komonerTag", selected-items="selectedTags", ng-repeat="komonerTag in komonerTags", action="selectTag(item)")
+                    div(class="row")
+                        div(class="col-md-2")
+                            label(class="control-label", for="name") Name
+                            span(class="glyphicon glyphicon-asterisk", aria-hidden="true", tooltip-trigger="mouseenter", tooltip="You must enter a name.")
+                            input(required type="text", name="name", ng-model="name", class="form-control", tooltip-trigger="keyup", tooltip="{{(addExpense.name.$invalid) ? 'You must enter a name.' : ''}}")
 
+                        div(class="col-md-2")
+                            label(class="control-label", for="tags") Tags
+                            div() Click to unselect
+                            komon-tags(item="komonerTag", selected-items="selectedTags", ng-repeat="komonerTag in selectedTags", action="unselectTag(item)")
 
+                        div(class="col-md-2")
+                            label(class="control-label", for="date") Date
+                            div(class="input-group")
+                                input(type="text", class="form-control", readonly="readonly", datepicker-popup="{{format}}", ng-model="date", is-open="opened", min-date="minDate", datepicker-options="dateOptions", date-disabled="disabled(date, mode)", ng-required="true", close-text="Close")
+                                span(class="input-group-btn")
+                                    button(type="button", class="btn btn-default", ng-click="openDatepicker($event)")
+                                        i(class="glyphicon glyphicon-calendar")
+
+                        div(class="col-md-2")
+                            label(class="control-label", for="comment") Comment
+                            div(class="input-group")
+                                input(type="text", name="comment", ng-model="comment", class="form-control")
+                                span(class="input-group-btn")
+                                    button(type="button", class="btn btn-default")
+                                        i(class="glyphicon glyphicon-comment")
+
+                        div(class="col-md-2")
+                            label(class="control-label", for="price") Price
+                            div(class="input-group")
+                                input(type="text", name="price", ng-model="price", class="form-control", ng-pattern="/^[0-9]{1,7}(\.[0-9]+)?$/", tooltip-trigger="keyup", tooltip="{{(addExpense.price.$invalid) ? 'Format must be a number separated by . or ,' : ''}}")
+                                span(class="input-group-btn")
+                                    button(type="button", class="btn btn-default")
+                                        i(class="glyphicon glyphicon-euro")
+
+                        div(class="col-md-2")
+                            label(class="control-label", for="amount") Amount
+                            select(ng-options="amount as amount.value for amount in amounts", ng-model="amount", class="form-control")
+
+                    div(class="row")
+                            button(type="button", class="btn btn-primary", ng-click="addKomonerExpense()", ng-disabled="addExpense.$invalid") Add
+
+                div(class="row")
+                    button(type="button", class="btn btn-info", ng-click="deleteKomonerExpenses()") Remove
+
+                div(class="row")
+                    div(class="col-md-2")
+                        button(type="button" class="btn btn-default", aria-label="Previous", ng-click="prevMonth()")
+                            span(class="glyphicon glyphicon-menu-left", aria-hidden="true")
+                    div(class="col-md-2")
+                        label(class="control-label", for="dateSwitch") Month
+                        div(class="input-group")
+                            input(type="text", readonly="readonly", class="form-control", ng-change="switchMonth(dateSwitch)", datepicker-mode="'month'", datepicker-popup="MMMM yyyy", ng-model="dateSwitch", is-open="switchOpened", min-date="minDate", datepicker-options="dateSwitchOptions", date-disabled="disabled(date, mode)", ng-required="true", close-text="Close")
+                            span(class="input-group-btn")
+                                button(type="button", class="btn btn-default", ng-click="openSwitch($event)")
+                                    i(class="glyphicon glyphicon-calendar")
+                    div(class="col-md-2")
+                        button(type="button" class="btn btn-default", aria-label="Next", ng-click="nextMonth()")
+                            span(class="glyphicon glyphicon-menu-right", aria-hidden="true")
+
+                    div(class="col-md-2 col-md-offset-3")
+                        label(class="control-label", for="total") Total for this month :
+                        span(name="total") {{gridOptions.data | total:'price' | currency:"€"}}
+
+                    div(class="col-md-2")
+                div(class="grid", ui-grid="gridOptions", ui-grid-selection, ng-animate=" 'animate' ",ui-grid-edit, ui-grid-row-edit, ui-grid-cellNav, ui-grid-auto-resize)
+                    div(class="watermark" ng-show="!gridOptions.data.length") No expense for this month.
 
 
 
