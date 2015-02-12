@@ -33,11 +33,6 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
                     headerCellClass: 'gridHeader',
                     cellClass: 'gridCell'
                 },
-                { field: '_tags',
-                    cellTemplate: '<div ng-repeat="tag in row.entity._tags"><komon-tags item="tag" mode="small"></komon-tags></div>',
-                    enableFiltering: false,
-                    headerCellClass: 'gridHeader'
-                },
                 { field: 'date',
                     noTerm: true,
                     cellFilter: 'date:\'dd/MM/yyyy\'',
@@ -77,6 +72,11 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
                 {
                     field: 'amount', width: '100', enableFiltering: false, editableCellTemplate: 'ui-grid/dropdownEditor',
                     editDropdownOptionsArray: $scope.amounts,
+                    headerCellClass: 'gridHeader'
+                },
+                { field: '_tags',
+                    cellTemplate: '<div ng-repeat="tag in row.entity._tags"><komon-tags item="tag" mode="small"></komon-tags></div>',
+                    enableFiltering: false,
                     headerCellClass: 'gridHeader'
                 }
             ]
