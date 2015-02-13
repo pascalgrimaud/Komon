@@ -65,7 +65,7 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
                             placeholder: 'less than'
                         }
                     ],
-                    cellTemplate: '<div>{{row.entity.price | currency:"€"}}</div>',
+                    cellTemplate: '<div class="ui-grid-cell-contents">{{row.entity.price | currency:"€"}}</div>',
                     headerCellClass: 'gridHeader'
                 },
                 // custom condition function
@@ -101,6 +101,9 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
         };
 
         $scope.komonerId = "54c7a0c902dbfa0c1f0afe5a";
+        $scope.komoner = {
+            name: "Komo"
+        };
 
 //Get all expenses of komoner
         $scope.getKomonerExpenses = function () {

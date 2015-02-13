@@ -174,4 +174,30 @@ snap-content {
     z-index: 1000;
 }
 
+.total
+{
+    font-size: 20px;
+    font-weight: bold;
+    color: darkslategray;
+}
+
+h3
+{
+    font-size: 28px;
+    font-weight: bold;
+    color: darkslategray;
+}
+
+.ui-grid
+{
+    font-size: 14px;
+    font-weight: bold;
+    color: darkslategray;
+}
+
+.logo
+{
+    width: 30px;
+}
+
 

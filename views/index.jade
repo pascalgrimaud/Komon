@@ -67,10 +67,11 @@ block content
                                     button(type="button", class="btn btn-primary", ng-click="addKomonerExpense()", ng-disabled="addExpense.$invalid") Add
 
                 div(class="row")
-                    div(class="inlineBlock", tooltip="{{(gridApi.selection.getSelectedRows().length == 0) ? 'To remove an expense, select one or more rows then click the Remove button.' : ''}}")
-                        button(type="button", class="btn btn-info", ng-click="deleteKomonerExpenses()", ng-disabled="gridApi.selection.getSelectedRows().length == 0") Remove
 
-                div(class="row")
+                    div(class="col-md-2")
+                        div(class="inlineBlock", tooltip="{{(gridApi.selection.getSelectedRows().length == 0) ? 'To remove an expense, select one or more rows then click the Remove button.' : ''}}")
+                            button(type="button", class="btn btn-info", ng-click="deleteKomonerExpenses()", ng-disabled="gridApi.selection.getSelectedRows().length == 0") Remove
+
                     div(class="col-md-1")
                         button(type="button" class="btn btn-default", aria-label="Previous", ng-click="prevMonth()")
                             span(class="glyphicon glyphicon-menu-left", aria-hidden="true")
@@ -86,7 +87,8 @@ block content
 
                     div(class="col-md-2 col-md-offset-3")
                         label(class="control-label", for="total") Total for this month :
-                        span(name="total") {{gridOptions.data | total:'price' | currency:"€"}}
+                        span(name="total", class="total") {{gridOptions.data | total:'price' | currency:"€"}}
+
 
                 div(snap-toggle="right", class="glyphicon glyphicon-tags snapToggle", aria-hidden="true", tooltip="Tag filter")
                 div(class="grid", ui-grid="gridOptions", ui-grid-selection, ng-animate=" 'animate' ",ui-grid-edit, ui-grid-row-edit, ui-grid-cellNav, ui-grid-auto-resize)
