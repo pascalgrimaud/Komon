@@ -23,7 +23,7 @@ block content
                                 span(ng-show="addExpense.$dirty", class="glyphicon form-control-feedback", ng-class="{'glyphicon-ok': addExpense.$valid, 'glyphicon-remove ': addExpense.$invalid && addExpense.$dirty}", aria-hidden="true")
                                 label(class="control-label") Your tags
                                 div() Click to tag your expense
-                                komon-tags(item="komonerTag", selected-items="selectedTags", ng-repeat="komonerTag in komonerTags", action="selectTag(item)")
+                                komon-tags(item="komonerTag", selected-items="selectedTags", ng-repeat="komonerTag in komonerTags track by komonerTag._id", action="selectTag(item)")
                             div(class="row")
                                 div(class="col-md-2")
                                     label(class="control-label", for="name") Name
@@ -33,12 +33,12 @@ block content
                                 div(class="col-md-2")
                                     label(class="control-label", for="tags") Tags
                                     div() Click to unselect
-                                    komon-tags(item="komonerTag", selected-items="selectedTags", ng-repeat="komonerTag in selectedTags", action="unselectTag(item)")
+                                    komon-tags(item="komonerTag", selected-items="selectedTags", ng-repeat="komonerTag in selectedTags track by komonerTag._id", action="unselectTag(item)")
 
                                 div(class="col-md-2")
                                     label(class="control-label", for="date") Date
                                     div(class="input-group")
-                                        input(type="text", class="form-control", readonly="readonly", datepicker-popup="{{format}}", ng-model="date", is-open="opened", min-date="minDate", datepicker-options="dateOptions", date-disabled="disabled(date, mode)", ng-required="true", close-text="Close")
+                                        input(type="text", class="form-control", readonly="readonly", datepicker-popup="{{::format}}", ng-model="date", is-open="opened", min-date="minDate", datepicker-options="dateOptions", date-disabled="disabled(date, mode)", ng-required="true", close-text="Close")
                                         span(class="input-group-btn")
                                             button(type="button", class="btn btn-default", ng-click="openDatepicker($event)")
                                                 i(class="glyphicon glyphicon-calendar")

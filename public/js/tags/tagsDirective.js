@@ -7,48 +7,33 @@ angular.module('komon.directives').directive('komonTags', [function () {
         restrict: 'EA',
         templateUrl: 'js/tags/komonTag.tpl.html',
         scope: {
-             item:"=",
-             selectedItems:"=",
-             mode:"@",
-             action:"@"
+            item: "=",
+            selectedItems: "=",
+            mode: "@",
+            action: "@"
         },
-        controller: ['$scope', '$element', '$attrs', 'tagsService', function ($scope, $element, $attrs, tagsService) {
+        controller: ['$scope', '$element', '$attrs', function ($scope, $element, $attrs) {
 
             //Checks if a tag is in the selectedItems array
-            $scope.isSelected = function(tag)
-            {
-                if(!angular.isUndefined($scope.selectedItems))
-                for(var i=0; i<$scope.selectedItems.length; i++){
-                    if($scope.selectedItems[i] === tag){
-                        return true;
-                    }
-                }
-                return false;
+            $scope.isSelected = function (tag) {
+                return _.indexOf($scope.selectedItems, tag) >= 0;
             };
 
             //Select tag : add tag in selectedItems array
-            $scope.selectTag = function(tag)
-            {
-                if(!$scope.isSelected(tag))
+            $scope.selectTag = function (tag) {
+                if (!$scope.isSelected(tag))
                     $scope.selectedItems.push(tag);
             };
 
             //Unselect tag : remove from selectedItems array
-            $scope.unselectTag = function(tag)
-            {
-                for(var i=0; i<$scope.selectedItems.length; i++){
-                    if($scope.selectedItems[i] === tag){
-                        $scope.selectedItems.splice(i, 1);
-                    }
-                }
+            $scope.unselectTag = function (tag) {
+                _.pull($scope.selectedItems, tag);
             };
 
-            $scope.toggleTagFilter = function(tag)
-            {
-                if(!$scope.isSelected(tag))
+            $scope.toggleTagFilter = function (tag) {
+                if (!$scope.isSelected(tag))
                     $scope.selectedItems.push(tag);
-                else
-                {
+                else {
                     $scope.unselectTag(tag);
                 }
 
