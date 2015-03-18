@@ -1,0 +1,50 @@
+<div ng-controller="tagManageController" flow-init flow-file-added="!!{png:1,gif:1,jpg:1,jpeg:1}[$file.getExtension()]"
+     flow-files-submitted="$flow.upload()">
+    <div class="modal-header">
+        <h3>{{modalOptions.headerText}}<span class="orangeText">{{modalOptions.secondHeaderText}}</span></h3>
+    </div>
+    <div class="modal-body">
+        <div class="col-md-7">
+        <p>{{modalOptions.bodyText}}<span class="medium col-sm-offset-2">Selected tags : <span class="blueText">{{selectedManagedTags.length}}</span></span></p>
+        <komon-tags item="komonerTag" mode="manage" selected-items="selectedManagedTags" ng-repeat="komonerTag in komonerTags track by komonerTag._id"
+                    action="toggleTagFilter(item)"></komon-tags>
+        </div>
+        <div class="col-md-3">
+            <label for="tagName">Tag name</label>
+            <input class="form-control" type="text" id="tagName" ng-model="tagName" />
+            <label for="tagColor">Color</label>
+            <div>
+                <figure class="circle floatLeft" ng-style="{'background': tagColor}"></figure>
+                <ng-color-picker selected='tagColor'></ng-color-picker>
+                <!--input class="form-control floatLeft lessWidth" colorpicker="hex" id="tagColor" type="text" ng-model="tagColor" /-->
+            </div>
+            <div>
+                <div class="thumbnail" ng-hide="$flow.files.length">
+                    <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image" />
+                </div>
+                <div class="thumbnail" ng-show="$flow.files.length">
+                    <img flow-img="$flow.files[0]" />
+                </div>
+                <div>
+                    <a href="#" class="btn" ng-hide="$flow.files.length" flow-btn flow-attrs="{accept:'image/*'}">Select image</a>
+                    <a href="#" class="btn" ng-show="$flow.files.length" flow-btn flow-attrs="{accept:'image/*'}">Change</a>
+                    <a href="#" class="btn btn-danger" ng-show="$flow.files.length"
+                       ng-click="$flow.cancel()">
+                        Remove
+                    </a>
+                </div>
+                <p>
+                    Only PNG,GIF,JPG files allowed.
+                </p>
+            </div>
+        </div>
+        <div class="col-md-2" id="sideMenu">
+            <div class="glyphicon glyphicon-plus bigIcon" tooltip="Add tag" ng-click="addTag()"></div>
+            <div class="glyphicon glyphicon-remove bigIcon" tooltip="Delete selected tags" ng-click="removeTags()"></div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary"
+                data-ng-click="modalOptions.close()">{{modalOptions.closeButtonText}}</button>
+    </div>
+</div>

@@ -17,5 +17,15 @@ angular.module('komon.services').factory('tagsService', ['$http', 'Restangular',
         return Restangular.all('tags').one('komoner', komonerId).get();
     };
 
+    //Delete tag
+    tagsService.deleteKomonerTag = function (tag) {
+        return Restangular.one('tags', tag._id).remove();
+    };
+
+    tagsService.addKomonerTag = function(tag)
+    {
+        return Restangular.all('tags').post(tag);
+    };
+
     return tagsService;
 }]);

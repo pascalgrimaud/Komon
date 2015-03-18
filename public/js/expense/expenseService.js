@@ -34,6 +34,7 @@ angular.module('komon.services').factory('expenseService', ['$http', 'Restangula
     expenseService.saveExpense = function(expense)
     {
        return Restangular.one('expenses', expense._id).get().then(function(object) {
+
             object.date = expense.date;
             object.name = expense.name;
             object.tags = expense.date;

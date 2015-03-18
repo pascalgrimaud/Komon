@@ -28,6 +28,7 @@ a {
     padding: 3px;
     float: left;
     cursor: pointer;
+    margin: 5px;
 }
 
 .komonerTag:hover {
@@ -42,7 +43,7 @@ a {
 }
 
 .selectedTag {
-    border: 3px black solid;
+    border: 3px dodgerblue solid;
     opacity: 0.7;
 }
 
@@ -82,10 +83,10 @@ a {
     margin-bottom: 10px;
 }
 
-.snapToggle {
-    font-size: 50px;
+.bigIcon {
+    font-size: 45px;
     cursor: pointer;
-    float: right;
+    display: block;
 }
 
 snap-content {
@@ -200,4 +201,73 @@ h3
     width: 30px;
 }
 
+html {
+    height: 100%;
+}
 
+body {
+    min-height: 100%;
+}
+
+.modal-backdrop {
+    bottom: 0;
+}
+
+.sideMenuElement
+{
+    display: block;
+}
+
+.modal-body
+{
+    overflow-y: scroll;
+}
+
+#sideMenu
+{
+    float: right;
+}
+
+#sideMenu .bigIcon
+{
+    margin: 15px;
+    color: #253061;
+}
+
+.blueText
+{
+    color: #253061;
+}
+
+.circle {
+    display: block;
+    background: black;
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.medium
+{
+    font-size: 15px;
+    font-weight: bold;
+    color: darkslategray;
+}
+
+.floatLeft
+{
+    float: left;
+}
+
+.lessWidth
+{
+    width: 60%;
+}
+
+.thumbnail
+{
+    width: 75px;
+    height: 75px;
+}

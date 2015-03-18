@@ -1,8 +1,9 @@
 /**
  * Created by Komo on 27/01/2015.
  */
-angular.module('komon.controllers').controller('expenseController', ['$scope', '$http', '$filter', '$interval', '$timeout', 'expenseService', 'uiGridConstants', 'alertService', 'tagsService',
-    function ($scope, $http, $filter, $interval, $timeout, expenseService, uiGridConstants, alertService, tagsService) {
+angular.module('komon.controllers').controller('expenseController', ['$scope', '$http', '$filter', '$interval', '$timeout', 'expenseService', 'uiGridConstants', 'alertService', 'tagsService'
+    , 'modalService',
+    function ($scope, $http, $filter, $interval, $timeout, expenseService, uiGridConstants, alertService, tagsService, modalService) {
 
         var lowEnd = 1;
         var highEnd = 99;
@@ -75,7 +76,7 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
                     headerCellClass: 'gridHeader'
                 },
                 { field: '_tags',
-                    cellTemplate: '<div ng-repeat="tag in row.entity._tags"><komon-tags item="tag" mode="small"></komon-tags></div>',
+                    cellTemplate: '<div ng-repeat="tag in row.entity._tags track by tag._id"><komon-tags item="tag" mode="small"></komon-tags></div>',
                     enableFiltering: false,
                     headerCellClass: 'gridHeader'
                 }
@@ -84,7 +85,7 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
         ;
 
 
-//Open datepicker
+        //Open datepicker
         $scope.openDatepicker = function ($event) {
             $event.preventDefault();
             $event.stopPropagation();
@@ -92,7 +93,7 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
             $scope.opened = true;
         };
 
-//Open datapicker for quick month switch
+        //Open datapicker for quick month switch
         $scope.openSwitch = function ($event) {
             $event.preventDefault();
             $event.stopPropagation();
@@ -174,12 +175,7 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
         $scope.addKomonerExpense = function () {
 
             //Get ids of selected tags
-
-            var selectedTagsIds = [];
-
-            for (var i = 0; i < $scope.selectedTags.length; i++) {
-                selectedTagsIds.push($scope.selectedTags[i]._id);
-            }
+            var selectedTagsIds = _.pluck($scope.selectedTags, '_id');
 
             var expense = {
                 _komoner: $scope.komonerId,
@@ -250,6 +246,16 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
         $scope.tagFilter = function (entry) {
             var tags = entry._tags;
             //Check if all selected tag filters are in the entry tags
+            /*        console.log($scope.selectedTagFilters);
+             _.forEach($scope.selectedTagFilters, function(selectedTagFilter) {
+             console.log(_.findIndex(tags, selectedTagFilter));
+             if(!_.findIndex(tags, selectedTagFilter >= 0))
+             {
+             return false;
+             }
+             });
+
+             return true;*/
 
             for (var i = 0; i < $scope.selectedTagFilters.length; i++) {
                 if (!$scope.isInArray($scope.selectedTagFilters[i], tags)) {
@@ -258,7 +264,6 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
             }
 
             return true;
-
         };
 
         //Checks if element is in array
@@ -281,10 +286,27 @@ angular.module('komon.controllers').controller('expenseController', ['$scope', '
             $scope.gridOptions.data = $filter('filter')($scope.expenses, $scope.tagFilter);
         };
 
-        //Update total expenses for the selected month
-        /*   for (var i = 0; i < $scope.expenses.length; i++) {
-         $scope.total += $scope.expenses[i].price * $scope.expenses[i].amount;
-         }*/
+        var modalOptions = {
+            closeButtonText: 'Close',
+            headerText: 'Your',
+            secondHeaderText: ' tags',
+            bodyText: 'Here you can add, remove, or edit tags !'
+        };
+
+        var modalParameters = {
+            backdrop: true,
+            keyboard: true,
+            modalFade: true,
+            templateUrl: 'js/tags/tagManageModal.tpl.html',
+            size: 'lg',
+            scope: $scope
+        };
+
+        $scope.manageTags = function (){
+            $scope.manageTagsModal = modalService.showModal(modalParameters, modalOptions);
+        };
+
+
 
     }]).filter("total", function () {
     return function (items, field) {

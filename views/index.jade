@@ -4,8 +4,8 @@ block content
         alert-notification
         div(snap-drawer="right")
             div(class="glyphicon glyphicon-cog settings")
-            a(class="actionLink") Manage tags
-            div(class="glyphicon glyphicon-menu-right snapToggle snapClose", snap-close)
+                a(class="actionLink", ng-click="manageTags()") Manage tags
+            div(class="glyphicon glyphicon-menu-right bigIcon snapClose", snap-close)
             h5 Filter by tag
             komon-tags(item="komonerTag", selected-items="selectedTagFilters", mode="filter", ng-repeat="komonerTag in komonerTags track by komonerTag._id", action="toggleTagFilter(item)")
         snap-content
@@ -89,8 +89,9 @@ block content
                         label(class="control-label", for="total") Total for this month :
                         span(name="total", class="total") {{gridOptions.data | total:'price' | currency:"€"}}
 
-
-                div(snap-toggle="right", class="glyphicon glyphicon-tags snapToggle", aria-hidden="true", tooltip="Tag filter")
+                div(id="sideMenu")
+                    div(snap-toggle="right", class="glyphicon glyphicon-tags bigIcon snapTags sideMenuElement", aria-hidden="true", tooltip="Tag filter")
+                    div(class="glyphicon glyphicon-cog bigIcon sideMenuElement", tooltip="Manage tags", ng-click="manageTags()")
                 div(class="grid", ui-grid="gridOptions", ui-grid-selection, ng-animate=" 'animate' ",ui-grid-edit, ui-grid-row-edit, ui-grid-cellNav, ui-grid-auto-resize)
                     div(class="watermark" ng-show="!gridOptions.data.length") No expense for this month.
 
